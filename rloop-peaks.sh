@@ -14,12 +14,31 @@ function preprocess_across_treatments{
     align_reads_across_reps $treatment
     sam2sorted_bam_across_reps $treatment
     mark_duplicates_across_reps $treatment
+    strand_specific_bam_across_reps $treatment
   done
 }
 
-function call_experiment_peaks{
-  
+function call_exp_peaks{
+  # TODO: unhardcode
+  for rep_num in $reps
+  do 
+    call_peaks 'DRIP' 'RNaseH' $rep_num "forward"
+    call_peaks 'DRIP' 'RNaseH' $rep_num "reverse"
 
+    call_peaks 'DRIP' 'Input' $rep_num "forward"
+    call_peaks 'DRIP' 'Input' $rep_num "reverse"
+  done
+}
+
+function intersect_exp_peaks_across_groups{
+  for rep_num in $reps
+  do 
+    # todo: figure out macs2 naming convention. in meantime can use prefix? ${strand_direction}_${treatment}_${rep_num}
+    # todo: figure out if need to keep separated by strands at this point
+    # intersect_peaks correct usage: intersect_peaks <group A> <group B> <file A> <file B> <outdir>
+    intersect_peaks 'fDRIP-RNaseH' 'fDRIP-Input' $rep_num "forward_RNaseH_${rep_num}.bam" "forward_Input_${rep_num}.bam" #forward
+    intersect_peaks 'rDRIP-RNaseH' 'rDRIP-Input' $rep_num "reverse_RNaseH_${rep_num}.bam" "reverse_Input_${rep_num}.bam" #reverse
+  done
 }
 #------------ per-treatment, preprocessing functions -----------------#
 # Given a treatment, trims adaptors across the 3 replicates in that treatment 
@@ -34,7 +53,7 @@ function trim_adaptors_across_reps{
 # Creates per rep "intermed/aligned_${treatment}_${rep_num}.sam"
 function align_reads_across_reps{
   local treatment=$1
-  for rep_num in 1 2 3
+  for rep_num in $reps
   do 
     #todo: need to align unpaired as well?
     align_reads $treatment $rep_num "forward_pair_${treatment}_${rep_num}.sam" "reverse_pair_${treatment}_${rep_num}.sam"
@@ -43,7 +62,7 @@ function align_reads_across_reps{
 
 function sam2sorted_bam_across_reps{
   local treatment=$1
-  for rep_num in 1 2 3
+  for rep_num in $reps
   do 
     sam2sorted_bam $treatment $rep_num "aligned_${treatment}_${rep_num}.sam"
   done
@@ -51,9 +70,17 @@ function sam2sorted_bam_across_reps{
 
 function mark_duplicates_across_reps{
   local treatment=$1
-  for rep_num in 1 2 3
+  for rep_num in $reps
   do 
     mark_duplicates $treatment $rep_num "sorted_${treatment}_${rep_num}.bam"
+  done
+}
+
+function strand_specific_bam_across_reps{
+  local treatment=$1
+  for rep_num in $reps
+  do 
+    strand_specific_bam $treatment $rep_num "marked_duplicates_${treatment}_${rep_num}.bam"
   done
 }
 
@@ -187,14 +214,14 @@ function mark_duplicates{
 # 5. generate strand-specific BAM files 
 function strand_specific_bam{ 
   if [ $# != 3 ]; then
-    echo  "mark_duplicates correct usage: mark_duplicates <treatment> <rep_num> <input_bam>"
+    echo  "strand_specific_bam correct usage: strand_specific_bam <treatment> <rep_num> <input_bam>"
   fi 
   local treatment=$1
   local rep_num=$2
   local in_bam=$3
 
-  local out_forward="out_forward_${in_bam}.bam"
-  local out_reverse="out_reverse_${in_bam}.bam"
+  local out_forward="forward_${treatment}_${rep_num}.bam"
+  local out_reverse="reverse_${treatment}_${rep_num}.bam"
   cd intermed
   touch "$out_forward"
   touch "$out_reverse"
@@ -229,24 +256,24 @@ function strand_specific_bam{
 # 7. again calling with DRIP versus RNase H-treated DRIP
 # https://hbctraining.github.io/Intro-to-ChIPseq/lessons/05_peak_calling_macs.html
 function call_peaks {
-  if [ $# != 5 ]; then
-    echo  "call_peaks correct usage: call_peaks <treatment> <control> <rep_num> <treatment_file> <control_file>"
+  if [ $# != 4 ]; then
+    echo  "call_peaks correct usage: call_peaks <treatment> <control> <rep num> <strand direction"
   fi 
   local treatment=$1
   local control=$2
 
   local rep_num=$3
-
-  local treatment_file=$4 # DRIP.bam
-  local control_file=$5   # DRIP_input.bam
+  local strand_direction=$4 
+  # DRIP.bam
+  # DRIP_input.bam
 
   # protocol just specified -f BAMPE –g 1.4e+08 which would use bandwidth of 300, mfold of 5 50, -q of 0.05
   macs2 callpeak
-  -t "intermed/${treatment_path}" \
-  -c "intermed/${control_path}" \
-  -f BAMPE -bw 250                    # format, bandwidth
-  -g dm -n "${treatment}_${rep_num}"  # genome size, name for files
-  –mfold 10 30 -q 0.01                # mfold range, qvalue/minimum FDR for peak detection
+  -t "intermed/${strand_direction}_${treatment}.bam" \
+  -c "intermed/${strand_direction}_${control}.bam" \
+  -f BAMPE -bw 250                                        # format, bandwidth
+  -g dm -n "${strand_direction}_vs${control}_${rep_num}"  # genome size, name for files
+  –mfold 10 30 -q 0.01                                    # mfold range, qvalue/minimum FDR for peak detection
   --outdir intermed/macs2 
   2> intermed/macs2/peak-log.log \
   --broad \
@@ -258,8 +285,8 @@ function call_peaks {
 # 9. BEDTools to retain only peaks present in both replicates
 # function to be called to compare across treatment groups and across replicates
 function intersect_peaks{
-  if [ $# != 4 ]; then
-    echo  "call_peaks correct usage: call_peaks <group A> <group B> <file A> <file B> <outdir>"
+  if [ $# != 5 ]; then
+    echo  "intersect_peaks correct usage: intersect_peaks <group A> <group B> <file A> <file B> <outdir>"
   fi 
   local versus_A=$1
   local versus_B=$2
