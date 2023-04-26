@@ -49,15 +49,17 @@ Local:
 
 2. Input data should be placed in data/ directory with the following naming convention:
 
-&nbsp;&nbsp;&nbsp;&nbsp; forward_<treament>_<replicate number)>
+    forward_< treament >_< replicate number >
 
-&nbsp;&nbsp;&nbsp;&nbsp; reverse_<treament>_<replicate number)>
+    reverse_< treament >_< replicate number >
+
+&nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
 
 If different file names are preferred, this pattern can be changed in the `preprocess.sh` file in `trim_adaptors_across_reps`. 
 
 3. Run from inside the `drip-seq` directory:
 
-```./rloop-peaks.sh```
+    ./rloop-peaks.sh
 
 Oscar:
 
