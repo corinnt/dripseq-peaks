@@ -1,23 +1,34 @@
 #!/bin/bash
 export PATH="~/bin:$PATH"
 
+TOOLS_PATH="~/desktop/spring_2023/drip-seq/tools"
+#TREAT=NONE
+#REP=0
+REPS={1..3}
+TREATMENTS=('DRIP' 'RNaseH' 'Input')
+
 #------------- abstracted experiment-specific calls ----------------------#
-function process_reps_across_treatments{
-  for treatment in "DRIP" "RNaseH" "Input"
+function preprocess_across_treatments{
+  for treatment in "${TREATMENTS[@]}"
   do 
     trim_adaptors_across_replicates $treatment
     align_reads_across_replicates $treatment
-
+    sam2bam_across_replicates $treatment
+    mark_duplicates_across_replicates $treatment
   done
 }
 
-#------------ per-treatment, across replicates functions -----------------#
+function call_peaks{
+
+
+}
+#------------ per-treatment, preprocessing functions -----------------#
 # Given a treatment, trims adaptors across the 3 replicates in that treatment 
 function trim_adaptors_across_replicates{
   local treatment=$1
-  for rep_num in 1 2 3
+  for rep_num in $reps
   do 
-    trim_adaptors data/ ${treatment}_forw_${rep_num} ${treatment}_rev_${rep_num}
+    trim_adaptors $treatment $rep_num data
   done
 }
 # Given a treatment, aligns paired reads across the 3 replicates in that treatment 
@@ -26,10 +37,27 @@ function align_reads_across_replicates{
   for rep_num in 1 2 3
   do 
     #todo: need to align unpaired as well?
-    align_reads $treatment $rep_num out_forward_pair_${treatment}_${rep_num} out_reverse_pair_${treatment}_${rep_num}
+    align_reads $treatment $rep_num "forward_pair_${treatment}_${rep_num}.sam" "reverse_pair_${treatment}_${rep_num}.sam"
   done
 }
 
+function sam2bam_across_replicates{
+  local treatment=$1
+  for rep_num in 1 2 3
+  do 
+    sam2sorted_bam $treatment $rep_num "forward_pair_${treatment}_${rep_num}.sam"
+    sam2sorted_bam $treatment $rep_num "reverse_pair_${treatment}_${rep_num}.sam"
+  done
+}
+
+function mark_duplicates_across_replicates{
+  local treatment=$1
+  for rep_num in 1 2 3
+  do 
+    mark_duplicates $treatment $rep_num forward_pair
+    mark_duplicates $treatment $rep_num reverse_pair
+  done
+}
 #--------------------- protocol per-step functions -----------------------#
 
 # 1. trim adaptors + remove low-quality reads w Trimmomatic 
@@ -42,35 +70,36 @@ function trim_adaptors {
   # and 2 for corresponding 'unpaired' output where a read survived, but the partner read did not.
   local treatment=$1
   local rep_num=$2
-  local input_dir=$3
-  local in_forward_path=$4
-  local in_reverse_path=$5
+  local data_dir=$3
+
+  local in_forward_file="${data_dir}/${treatment}_forw_${rep_num}"
+  local in_reverse_file="${data_dir}/${treatment}_rev_${rep_num}"
 
   cd intermed
-  touch out_forward_pair_${treatment}_${rep_num}
-  local out_forward_pair="intermed/out_forward_pair_${treatment}_${rep_num}"
-
-  touch out_forward_unpair_${treatment}_${rep_num}
-  local out_forward_unpair_path="intermed/out_forward_unpair_${treatment}_${rep_num}"
-
-  touch out_reverse_pair_${treatment}_${rep_num}
-  local out_reverse_pair_path="intermed/out_reverse_pair_${treatment}_${rep_num}"
-
-  touch out_reverse_unpair_${treatment}_${rep_num}
-  local out_reverse_unpair_path="intermed/out_reverse_unpair_${treatment}_${rep_num}"
+  tags=("forward_pair" "forward_unpair" "reverse_pair" "reverse_unpair")
+  for tag in "${tags[@]}"
+  do 
+    touch "${tag}_${treatment}_${rep_num}.fq.gz"
+  done
   cd ..
+  
+  local reverse_unpair_path="intermed/reverse_unpair_${treatment}_${rep_num}"
+  local out_forward_pair="intermed/forward_pair_${treatment}_${rep_num}"
+  local forward_unpair_path="intermed/forward_unpair_${treatment}_${rep_num}"
+  local reverse_pair_path="intermed/reverse_pair_${treatment}_${rep_num}"
+
   #to use trimmomatic
-  java -jar trimmomatic-0.35.jar PE -phred33 \
-  $in_forward_file $in_reverse_file \
-  $out_forward_pair_path $out_forward_unpair_path \
-  $out_reverse_pair_path $out_forward_unpair_path \
+  java -jar "${TOOLS_PATH}/Trimmomatic-0.39/trimmomatic-0.39.jar" PE -phred33 \
+  "$in_forward_file" "$in_reverse_file" \
+  "$out_forward_pair_path" "$out_forward_unpair_path" \
+  "$out_reverse_pair_path" "$out_forward_unpair_path" \
   ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 \
   LEADING:3 \
   TRAILING:3 \
   SLIDINGWINDOW:4:15 \
   MINLEN:36
   # TODO: check steps
-  echo "Adaptors trimmed from ${in_forward_path} and ${in_reverse_path}"
+  echo "Adaptors trimmed from ${in_forward_file} and ${in_reverse_file}, ${treatment}, ${rep_num}"
 }
 
 # 2. align reads to drosophila w/ bowtie2 (v 2.3.1)
@@ -83,9 +112,10 @@ function align_reads {
   local reverse_reads_path=$4
 
   cd intermed
-  touch aligned_sam_${treatment}_${rep_num}
-  local output_sam_path="intermed/aligned_sam_${treatment}_${rep_num}"
+  touch "aligned_${treatment}_${rep_num}.sam"
   cd ..
+
+  local output_sam_path="intermed/aligned_${treatment}_${rep_num}.sam"
 
   bowtie2 -x "BDGP6" \
   -1 "$forward_reads_path" \
@@ -93,7 +123,7 @@ function align_reads {
   -fr -no-mixed --no-unal \
   -S "$output_sam_path"
 
-  echo "${treatment} reads aligned for ${forward_reads_path} and ${reverse_reads_path}"
+  echo "Reads aligned for ${forward_reads_path} and ${reverse_reads_path}; ${treatment}, ${rep_num}"
 }
 
 # 3. Samtools to convert SAM → BAM; 
@@ -101,9 +131,12 @@ function align_reads {
 #    Index BAM files; writes to 
 # http://www.htslib.org/doc/samtools-index.html
 function sam2sorted_bam {
-  local in_sam=$1
-  local out_sorted_bam=$2
-  local index_bai=$3
+  local treatment=$1
+  local rep_num=$2
+  local in_sam=$3
+
+  local out_sorted_bam="sorted_bam_${treatment}_${rep_num}.bam"
+  local index_bai="index_${treatment}_${rep_num}.bai"
 
   temp_out_bam=$(mktemp)
 
@@ -112,26 +145,43 @@ function sam2sorted_bam {
   samtools index "$out_sorted_bam" -o "$index_bai"
 
   rm $temp_out_bam
-  echo "Reads aligned for ${in_sam}; ${treatment}, ${rep_num}"
+  echo "SAM ${in_sam} to sorted + indexed BAM; ${treatment}, ${rep_num}"
 }
 
 # 4. Picard to mark duplicates to filter PCR duplicates
 # http://broadinstitute.github.io/picard/
-# java -jar ~/desktop/spring_2023/drip-seq/bin/picard.jar -h
+# java -jar ~/desktop/spring_2023/drip-seq/tools/picard.jar -h
 function mark_duplicates{
   #TODO
-  java -jar picard.jar MarkDuplicates \
-      I=input.bam \
-      O=marked_duplicates.bam \
-      M=marked_dup_metrics.txt
+  local treatment=$1
+  local rep_num=$2
+  local input_tag=$3
+
+  local input_bam="${input_tag}_${treatment}_${rep_num}.bam"
+  cd intermed
+  touch "marked_duplicates_${input_tag}_${treatment}_${rep_num}.bam"
+  touch "marked_dup_metrics_${input_tag}_${treatment}_${rep_num}.txt"
+  cd ..
+
+  local marked_duplicates="marked_duplicates_${treatment}_${rep_num}.bam"
+  local marked_dup_metrics="marked_dup_metrics_${treatment}_${rep_num}.txt"
+
+  java -jar "${TOOLS_PATH}/picard.jar" MarkDuplicates \
+      I="$input_bam" \
+      O="$marked_duplicates" \
+      M="$marked_dup_metrics"
+
+  echo "Duplicates marked in ${input_bam}; ${treatment}, ${rep_num}"
 }
 # 5. generate strand-specific BAM files 
 function strand_specific_bam{ 
   #numbers following view -f are bitflags to filter by
-  local in_bam=$1
+  local treatment=$1
+  local rep_num=$2
+  local in_bam=$3
 
   local out_forward="out_forward_${in_bam}.bam"
-  local out_reverse="out_revesere_${in_bam}.bam"
+  local out_reverse="out_reverse_${in_bam}.bam"
 
   temp_forward99=$(mktemp)
   temp_forward147=$(mktemp)
@@ -142,6 +192,7 @@ function strand_specific_bam{
   samtools view -f 99 "$in_bam" -o $temp_forward99
   samtools view -f 147 "$in_bam" -o $temp_forward147
   samtools merge -o "$out_forward" $temp_forward99 $temp_forward147
+
   #reverse strand: 
   samtools view -f 83 "$in_bam" -o $temp_reverse83
   samtools view -f 163 "$in_bam" -o $temp_reverse163
@@ -151,8 +202,8 @@ function strand_specific_bam{
   rm $temp_forward147
   rm $temp_reverse83
   rm $temp_reverse163
-  echo "Strand-specific BAM files generated: ${out_forward} and ${out_reverse}"
 
+  echo "Strand-specific BAM files generated for ${in_bam};  ${treatment}, ${rep_num}"
 }
 
 # 6. MACs2 (v2.1.1) to call peaks of DRIP versus Input using broad peak settings, 
@@ -173,8 +224,7 @@ function call_peaks {
   2> intermed/macs2/peak-log.log \
   --broad \
   
-  echo "Peaks called for ${treatment} vs ${control} saved to intermed/macs2"
-
+  echo "Peaks called for ${treatment} vs ${control} saved to intermed/macs2, rep num ${rep_num}"
 }
 
 # 8. BEDTools intersect to retain peaks present in both 
