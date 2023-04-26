@@ -18,10 +18,12 @@
 *.sqlite
 *.fa
 *.bt2
+*.bed
 
 
 #Directories
-/output/
-/data/
-/intermed/
-/tools/
+BDGP6/
+output/
+data/
+intermed/
+tools/
