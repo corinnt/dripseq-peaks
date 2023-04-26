@@ -4,14 +4,14 @@
 
 ### To-Do:
 
-**Individual Functions**
+**Preprocessing Functions**
 - for `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all?
 - decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control
-- deal with discrepancy between the protocol and the paper for macs2 settings
 
 **Workflow Functions**
 - finish call peaks between treatments
 - intersect peaks across replicates
+- deal with discrepancy between the protocol and the paper for macs2 settings
 
 **Dependency Management**
 - see if `bedtools-2.30.0` release will run
@@ -24,7 +24,7 @@
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
 - replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
-- Use instructions for Oscar
+- Write use instructions for Oscar
 
 **Complete**
 - compile documentation on packages and tools
@@ -59,13 +59,14 @@ If different file names are preferred, this pattern can be changed in the `prepr
 
 3. Run from inside the `drip-seq` directory:
 
-    ./rloop-peaks.sh
+    `./rloop-peaks.sh`
 
 Oscar:
 
+    TBD
 
 ## Environment and Dependencies Info:
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
 Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
 
-The JAR files and executables for Trimmomatic, bedtools, picard, and samtools should be added to the tools file (not committed). 
+The JAR files for Trimmomatic and samtools and executables for bedtools and picard should be added to the `tools/` directory (not committed). 
