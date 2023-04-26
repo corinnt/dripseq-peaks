@@ -59,7 +59,9 @@ If different file names are preferred, this pattern can be changed in the `prepr
 
 3. Run from inside the `drip-seq` directory:
 
-    `./rloop-peaks.sh`
+    `./rloop-peaks.sh` 
+
+Assumed to have replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
 Oscar:
 
