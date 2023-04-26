@@ -7,7 +7,12 @@ export PATH=$PATH:~/Desktop/Spring_2023/drip-seq/tools
 TOOLS_PATH="~/desktop/spring_2023/drip-seq/tools" #to access JAR files
 REPS={1..3}
 TREATMENTS=('DRIP' 'RNaseH' 'Input')
+function main {
+  preprocess_all 
+  call_exp_peaks
+  
 
+}
 #------------- abstracted experiment-specific calls ----------------------#
 function preprocess_all {
   for treatment in "${TREATMENTS[@]}"
@@ -99,3 +104,5 @@ function intersect_peaks{
 
   echo "Peak intersect ${versus_A} vs ${versus_B} saved to ${output_bed}, rep ${rep_num}"
 }
+
+main "$@" # call main with command line input

@@ -4,11 +4,11 @@ REPS={1..3}
 # Given a treatment, trims adaptors across the 3 replicates in that treatment 
 function trim_adaptors_across_reps{
   local treatment=$1
-  local forward_file=$2
-  local reverse_file=$3
-
+  
   for rep_num in $reps
   do 
+    local forward_file="forward_${treatment}_${rep_num}"
+    local reverse_file="reverse_${treatment}_${rep_num}"
     trim_adaptors $treatment $rep_num "$forward_file" "$reverse_file"
   done
 }
