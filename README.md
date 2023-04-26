@@ -1,4 +1,4 @@
-# Pipeline to identify R-loop peaks from DRIP-seq data.
+# Pipeline to identify R-loop peaks from DRIP-seq data
 
 ### Work in progress! BIOL1640 Independent Study project under Dr. Erica Larschan
 
@@ -24,6 +24,7 @@
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
 - replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
+- Use instructions for Oscar
 
 **Complete**
 - compile documentation on packages and tools
@@ -36,3 +37,21 @@
 - finish parsing input and intermediate files for `mark_duplicates`
 - add deepTools to conda env
 - finish preprocessing calls to `align_reads`, convert SAM to sorted BAM, and mark PCR duplicates
+
+## Use Instructions:
+Local: 
+
+1. Activate the virtual environment `rlooppeaks-x64`
+(tab)  For first time set up, run `conda env create -f rloops-x64.yml` in terminal
+(tab)  Otherwise, run `conda activate rloops-x64` in terminal
+2. Input data should be placed in data/ directory with the following naming convention
+(tab) forw_<treatment>_<replicate number>
+(tab) rev_<treatment>_<replicate number>
+
+3. Run 
+
+Oscar:
+
+
+## Environment Info:
+The Conda environment `rloops-x64` is 
