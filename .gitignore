@@ -18,3 +18,10 @@
 *.sqlite
 *.fa
 *.bt2
+
+
+#Directories
+/output/
+/data/
+/intermed/
+/tools/
