@@ -9,8 +9,6 @@
 - decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control
 
 **Workflow Functions**
-- finish call peaks between treatments
-- intersect peaks across replicates
 - deal with discrepancy between the protocol and the paper for macs2 settings
 
 **Dependency Management**
@@ -37,6 +35,8 @@
 - finish parsing input and intermediate files for `mark_duplicates`
 - add deepTools to conda env
 - finish preprocessing calls to `align_reads`, convert SAM to sorted BAM, and mark PCR duplicates
+- finish call peaks between treatments
+- intersect peaks across replicates
 
 ## Use Instructions:
 Local: 
