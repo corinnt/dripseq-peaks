@@ -42,17 +42,22 @@
 Local: 
 
 1. Activate the virtual environment `rlooppeaks-x64`
-(tab)  For first time set up, run `conda env create -f rloops-x64.yml` in terminal
-(tab)  Otherwise, run `conda activate rloops-x64` in terminal
+
+&nbsp;&nbsp;&nbsp;&nbsp;  For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
+
+&nbsp;&nbsp;&nbsp;&nbsp;  Otherwise, run `conda activate rloops-x64` in terminal
 
 2. Input data should be placed in data/ directory with the following naming convention:
-(tab) forward_<treament>_<replicate number)>
-(tab) reverse_<treament>_<replicate number)>
+
+&nbsp;&nbsp;&nbsp;&nbsp; forward_<treament>_<replicate number)>
+
+&nbsp;&nbsp;&nbsp;&nbsp; reverse_<treament>_<replicate number)>
+
 If different file names are preferred, this pattern can be changed in the `preprocess.sh` file in `trim_adaptors_across_reps`. 
 
 3. Run from inside the `drip-seq` directory:
 
-`./rloop-peaks.sh`
+```./rloop-peaks.sh```
 
 Oscar:
 
