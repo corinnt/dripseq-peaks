@@ -61,11 +61,22 @@ If different file names are preferred, this pattern can be changed in the `prepr
 
     `./rloop-peaks.sh` 
 
-Assumed to have replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
+Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
-Oscar:
+OSCAR (Brown's shared compute cluster)
+1. For the first time using OSCAR, ssh in to connect:
+`ssh <username>@ssh.ccv.brown.edu`
+2. Copy over the FASTQ files from your computer:
+`scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file`
 
-    TBD
+
+
+. Copy the output files from `~/scratch` to `~/data` so they won't be deleted after 30 days.
+
+. To copy files from OSCAR to your local computer:
+`scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file`
+
+    
 
 ## Environment and Dependencies Info:
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 

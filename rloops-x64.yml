@@ -1,3 +1,4 @@
+# this environment does not include deepTools packages for 
 name: rloops-x64
 channels:
   - conda-forge
