@@ -97,16 +97,16 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
     conda activate rloops-x64
 
 6. In terminal, run the batch script:
-
+<!--- Make code --->
     sbatch scheduler.sh
 
-TODO: Confirm running a batch script keeps the script from running on the login node. 
+**TODO:** Confirm running a batch script keeps the script from running on the login node. 
 
-&nbsp;&nbsp;&nbsp;&nbsp; [How to adjust the batch script arguments](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [How to adjust the batch script arguments](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *You can run the `myq` command to check the status (pending or running) of the job in the queue.* 
 
-7. Once complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
+7. Once the job is complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
 
 8. You can also copy the files from OSCAR to your local computer:
 <!--- Make code --->
