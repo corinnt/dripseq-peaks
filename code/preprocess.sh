@@ -65,13 +65,13 @@ function trim_adaptors {
   local in_forward_file="data/${in_forward_file}"
   local in_reverse_file="data/${in_reverse_file}"
 
-  cd intermed
+  cd_intermed
   tags=("forward_pair" "forward_unpair" "reverse_pair" "reverse_unpair")
   for tag in "${tags[@]}"
   do 
     touch "${tag}_${treatment}_${rep_num}.fq.gz"
   done
-  cd ..
+  cd_code
   
   local reverse_unpair_path="intermed/reverse_unpair_${treatment}_${rep_num}"
   local out_forward_pair="intermed/forward_pair_${treatment}_${rep_num}"
@@ -83,11 +83,11 @@ function trim_adaptors {
   "$in_forward_file" "$in_reverse_file" \
   "$out_forward_pair_path" "$out_forward_unpair_path" \
   "$out_reverse_pair_path" "$out_forward_unpair_path" \
-  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 \
-  LEADING:3 \
-  TRAILING:3 \
+  ILLUMINACLIP:TruSeq3-PE.fa:2:30:15 \
+  # LEADING:3 \ not included in GenPipes
+  TRAILING:30 \
   SLIDINGWINDOW:4:15 \
-  MINLEN:36
+  MINLEN:50
   # TODO: check steps
   echo "Adaptors trimmed from ${in_forward_file} and ${in_reverse_file}, ${treatment}, ${rep_num}"
 }
@@ -105,9 +105,9 @@ function align_reads {
   local reverse_reads_file=$4
 
   local output_sam_path="intermed/aligned_${treatment}_${rep_num}.sam"
-  cd intermed
+  cd_intermed
   touch "$output_sam_path"
-  cd ..
+  cd_code
 
   bowtie2 -x "BDGP6" \
   -1 "intermed/${forward_reads_file}" \
@@ -133,10 +133,10 @@ function sam2sorted_bam {
 
   local out_sorted_bam="sorted_${treatment}_${rep_num}.bam"
   local index_bai="indexed_${treatment}_${rep_num}.bai"
-  cd intermed
+  cd_intermed
   touch "${out_sorted_bam}"
   touch "${index_bai}"
-  cd ..
+  cd_code
 
   temp_out_bam=$(mktemp)
 
@@ -161,10 +161,10 @@ function mark_duplicates{
 
   local marked_duplicates="marked_duplicates_${treatment}_${rep_num}.bam"
   local marked_dup_metrics="marked_dup_metrics_${treatment}_${rep_num}.txt"
-  cd intermed
+  cd_intermed
   touch "$marked_duplicates"
   touch "$marked_dup_metrics"
-  cd ..
+  cd_code
 
   java -jar "${TOOLS_PATH}/picard.jar" MarkDuplicates \
       I="$input_bam" \
@@ -185,10 +185,10 @@ function strand_specific_bam{
 
   local out_forward="forward_${treatment}_${rep_num}.bam"
   local out_reverse="reverse_${treatment}_${rep_num}.bam"
-  cd intermed
+  cd_intermed
   touch "$out_forward"
   touch "$out_reverse"
-  cd ..
+  cd_code
 
   temp_forward99=$(mktemp)
   temp_forward147=$(mktemp)
@@ -213,4 +213,14 @@ function strand_specific_bam{
   rm $temp_reverse163
 
   echo "Strand-specific BAM files generated for ${in_bam};  ${treatment}, ${rep_num}"
+}
+
+function cd_intermed {
+  cd ..
+  cd intermed
+}
+ 
+function cd_code {
+  cd ..
+  cd code
 }

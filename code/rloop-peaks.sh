@@ -1,12 +1,11 @@
 #!/bin/bash
 #export PATH="~/bin:$PATH"
-export PATH=$PATH:~/Desktop/Spring_2023/drip-seq/tools
+#export PATH=$PATH:~/Desktop/Spring_2023/drip-seq/tools
 set -e
 set -u
 set -o pipefail
 
 # Posix compatible include statements
-
 . preprocess.sh # preprocessing functions
 . peak-ops.sh # peak calling and intersection functions
 . visuals.sh # visualization functions
@@ -79,4 +78,4 @@ function intersect_exp_peaks_across_reps {
       "filtered_peaks_fDRIP-RNaseH-3-fDRIP-Input-3.bed" \
 }
 
-main "$@" # call main with command line input
+main # call main with command line input: main "$@" 

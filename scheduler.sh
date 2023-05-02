@@ -8,6 +8,9 @@
 #SBATCH -N 1
 # how to choose number cores? 
 #SBATCH -c 1
-#SBATCH -J  
+#SBATCH -J  rloop-peaks
+
+# need to fix this output path. want -e error file as well?
+#SBATCH -o rloop-peaks-%j.out
 
 ./rloop-peaks.sh
