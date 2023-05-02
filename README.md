@@ -1,23 +1,26 @@
 # Pipeline to identify R-loop peaks from DRIP-seq data
 
-### Work in progress! BIOL1640 Independent Study project under Dr. Erica Larschan
+### Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan
 
 ### To-Do:
 
 **Preprocessing Functions**
 - for `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all?
 - decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control
+- how to get FASTA files for adapter trimming?
 
 **Workflow Functions**
 - deal with discrepancy between the protocol and the paper for macs2 settings
 
-**Dependency Management**
+**Dependency Management and Oscar Compatibility**
 - see if `bedtools-2.30.0` release will run
 - else try compiling bedtools from source
 - else 
     switch to Docker image instead of Conda env;
     use brew install bedtools
 - confirm Oscar will use -x64 arch
+- finish SLURM batch script for Oscar
+- finish Oscar use instructions
 
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
@@ -36,12 +39,14 @@
 - finish preprocessing calls to `align_reads`, convert SAM to sorted BAM, and mark PCR duplicates
 - finish call peaks between treatments
 - finish function to intersect peaks across replicates
-- Write use instructions for Oscar
+- General use instructions for Oscar
 
 ## Use Instructions:
+The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
+
 ### On Local Machine: 
 
-1. Activate the virtual environment `rlooppeaks-x64`
+1. Activate the virtual environment `rloops-x64`
 
 &nbsp;&nbsp;&nbsp;&nbsp;  For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
 
@@ -56,22 +61,37 @@
 &nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
 
 If different file names are preferred, this pattern can be changed in the `preprocess.sh` file in `trim_adaptors_across_reps`. 
+3. Uncomment 3 line of /code/rloop-peaks.sh:
+
+    export PATH=$PATH:~/<path>/<path>/drip-seq/tools
 
 3. Run from inside the `drip-seq` directory:
 
     `./rloop-peaks.sh` 
 
-Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
-### On Oscar (Brown's shared compute cluster)
-1. For the first time using OSCAR, `ssh` in to connect:
+### On Oscar, Brown's shared compute cluster:
+*These directions are still a work in progress.*
+1. Use `ssh` to connect to connect to Oscar:
 <!--- Make code --->
     ssh <username>@ssh.ccv.brown.edu
 
 
-2. Copy over the FASTQ files and script from your computer:
+2. Copy over the `drip-seq` directory from your computer to Oscar in order to make the FASTQ files, script, and environment available:
+
+Method 1:
+
+In Finder, `cmd-K` to open the **Connect to Server** window.
+
+Enter `smb://smb.ccv.brown.edu/home/<username>` and press **Connect**.
+
+
+
+Method 2:
 <!--- Make code --->
-    scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file
+    scp -r /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the `-r` flag is for recursive, so it will copy over the subdirectories and files inside the folder.
 
 
 3. Load the `anaconda` module from Oscar:
@@ -87,7 +107,7 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
 4. Add the `/tools` directory to the environment variable:
 <!--- Make code --->
     export my_variable=my_value
-
+Or is this what's at the top of the file?
 [TODO: details under "Passing environment variables to a batch job"](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
 5. Build and activate the conda environment:
@@ -116,4 +136,4 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
 Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
 
-The JAR files for Trimmomatic and samtools and executables for bedtools and picard should be added to the `tools/` directory (not committed). 
+The JAR files for Trimmomatic and samtools as well as the executables for bedtools and picard should be added to the `tools/` directory (not committed). 
