@@ -22,7 +22,6 @@
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
 - replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
-- Write use instructions for Oscar
 
 **Complete**
 - compile documentation on packages and tools
@@ -36,7 +35,8 @@
 - add deepTools to conda env
 - finish preprocessing calls to `align_reads`, convert SAM to sorted BAM, and mark PCR duplicates
 - finish call peaks between treatments
-- intersect peaks across replicates
+- finish function to intersect peaks across replicates
+- Write use instructions for Oscar
 
 ## Use Instructions:
 Local: 
@@ -65,18 +65,50 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
 
 OSCAR (Brown's shared compute cluster)
 1. For the first time using OSCAR, ssh in to connect:
+
 `ssh <username>@ssh.ccv.brown.edu`
-2. Copy over the FASTQ files from your computer:
+
+
+2. Copy over the FASTQ files and script from your computer:
+
 `scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file`
 
 
+3. Load the `anaconda` module from OSCAR:
+<!--- This might be module load anaconda/3-5.2.0 if this (recommended) version doesn't work --->
+`module load anaconda/2022.05` 
 
-. Copy the output files from `~/scratch` to `~/data` so they won't be deleted after 30 days.
+If this is the first time you've loaded anaconda, first run:
 
-. To copy files from OSCAR to your local computer:
+`conda init bash`
+
+<!--- TODO --->
+
+4. Add the `/tools` directory to the environment variable:
+
+`export my_variable=my_value`
+
+[TODO: details under "Passing environment variables to a batch job"](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
+
+5. Build and activate the conda environment:
+
+`conda env create -f rloops-x64.yml`
+`conda activate rloops-x64`
+
+6. In terminal, run the batch script:
+
+`sbatch scheduler.sh`
+
+To confirm! Running a batch script keeps the script from running on the login node. 
+
+[How to adjust the job script params](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
+
+You can run the `myq` command to check the status (pending or running) of the job in the queue. 
+
+7. Once complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
+
+8. You can also copy the files from OSCAR to your local computer:
 `scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file`
-
-    
 
 ## Environment and Dependencies Info:
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 

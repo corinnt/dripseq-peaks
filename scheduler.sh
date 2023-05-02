@@ -8,4 +8,6 @@
 #SBATCH -N 1
 # how to choose number cores? 
 #SBATCH -c 1
-#SBATCH -J 
+#SBATCH -J  
+
+./rloop-peaks.sh
