@@ -66,39 +66,39 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
 ### On Oscar (Brown's shared compute cluster)
 1. For the first time using OSCAR, `ssh` in to connect:
 
-    `ssh <username>@ssh.ccv.brown.edu`
+    ssh <username>@ssh.ccv.brown.edu
 
 
 2. Copy over the FASTQ files and script from your computer:
 
-    `scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file`
+    scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file
 
 
 3. Load the `anaconda` module from Oscar:
 <!--- This might be module load anaconda/3-5.2.0 if this (recommended) version doesn't work --->
-    `module load anaconda/2022.05` 
+    module load anaconda/2022.05 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If this is the first time you've loaded anaconda, first run:
 
-    `conda init bash`
+    conda init bash
 
 <!--- TODO --->
 
 4. Add the `/tools` directory to the environment variable:
 
-    `export my_variable=my_value`
+    export my_variable=my_value
 
 [TODO: details under "Passing environment variables to a batch job"](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
 5. Build and activate the conda environment:
 
-    `conda env create -f rloops-x64.yml`
+    conda env create -f rloops-x64.yml
 
-    `conda activate rloops-x64`
+    conda activate rloops-x64
 
 6. In terminal, run the batch script:
 
-    `sbatch scheduler.sh`
+    sbatch scheduler.sh
 
 TODO: Confirm running a batch script keeps the script from running on the login node. 
 
@@ -110,7 +110,7 @@ TODO: Confirm running a batch script keeps the script from running on the login 
 
 8. You can also copy the files from OSCAR to your local computer:
 
-`scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file`
+    scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file
 
 ## Environment and Dependencies Info:
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
