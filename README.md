@@ -60,7 +60,8 @@ The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP'
 &nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
 
 If different file names are preferred, this pattern can be changed in the `preprocess.sh` file in `trim_adaptors_across_reps`. 
-3. Uncomment 3 line of /code/rloop-peaks.sh:
+
+3. Uncomment 3 line of /code/rloop-peaks.sh (adds /tools directory to system path variable - not needed for Oscar)
 
     export PATH=$PATH:~/<path>/<path>/drip-seq/tools
 
