@@ -39,7 +39,7 @@
 - Write use instructions for Oscar
 
 ## Use Instructions:
-Local: 
+### Local: 
 
 1. Activate the virtual environment `rlooppeaks-x64`
 
@@ -63,8 +63,8 @@ If different file names are preferred, this pattern can be changed in the `prepr
 
 Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
-OSCAR (Brown's shared compute cluster)
-1. For the first time using OSCAR, ssh in to connect:
+### Oscar (Brown's shared compute cluster)
+1. For the first time using OSCAR, `ssh` in to connect:
 
 `ssh <username>@ssh.ccv.brown.edu`
 
@@ -74,11 +74,11 @@ OSCAR (Brown's shared compute cluster)
 `scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file`
 
 
-3. Load the `anaconda` module from OSCAR:
+3. Load the `anaconda` module from Oscar:
 <!--- This might be module load anaconda/3-5.2.0 if this (recommended) version doesn't work --->
 `module load anaconda/2022.05` 
 
-If this is the first time you've loaded anaconda, first run:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If this is the first time you've loaded anaconda, first run:
 
 `conda init bash`
 
@@ -93,21 +93,23 @@ If this is the first time you've loaded anaconda, first run:
 5. Build and activate the conda environment:
 
 `conda env create -f rloops-x64.yml`
+
 `conda activate rloops-x64`
 
 6. In terminal, run the batch script:
 
 `sbatch scheduler.sh`
 
-To confirm! Running a batch script keeps the script from running on the login node. 
+TODO: Confirm running a batch script keeps the script from running on the login node. 
 
-[How to adjust the job script params](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
+[How to adjust the batch script arguments](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
-You can run the `myq` command to check the status (pending or running) of the job in the queue. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *You can run the `myq` command to check the status (pending or running) of the job in the queue.* 
 
 7. Once complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
 
 8. You can also copy the files from OSCAR to your local computer:
+
 `scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file`
 
 ## Environment and Dependencies Info:
