@@ -1,8 +1,7 @@
 # Pipeline to identify R-loop peaks from DRIP-seq data
 
-### Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan
-
-### To-Do:
+*Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan*
+## To-Do:
 
 **Preprocessing Functions**
 - for `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all?
