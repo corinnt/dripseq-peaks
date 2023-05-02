@@ -65,12 +65,12 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
 
 ### On Oscar (Brown's shared compute cluster)
 1. For the first time using OSCAR, `ssh` in to connect:
-
+<!--- Make code --->
     ssh <username>@ssh.ccv.brown.edu
 
 
 2. Copy over the FASTQ files and script from your computer:
-
+<!--- Make code --->
     scp /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file
 
 
@@ -85,13 +85,13 @@ Assumed to have 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'R
 <!--- TODO --->
 
 4. Add the `/tools` directory to the environment variable:
-
+<!--- Make code --->
     export my_variable=my_value
 
 [TODO: details under "Passing environment variables to a batch job"](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
 5. Build and activate the conda environment:
-
+<!--- Make code --->
     conda env create -f rloops-x64.yml
 
     conda activate rloops-x64
@@ -109,7 +109,7 @@ TODO: Confirm running a batch script keeps the script from running on the login 
 7. Once complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
 
 8. You can also copy the files from OSCAR to your local computer:
-
+<!--- Make code --->
     scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file
 
 ## Environment and Dependencies Info:
