@@ -3,20 +3,16 @@
 *Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan*
 ## To-Do:
 
-**Preprocessing Functions**
-- for Picard `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all?
-- decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control
-- how to get FASTA files for adapter trimming?
-
 **Dependency Management and Oscar Compatibility**
 - see if `bedtools-2.30.0` release will run
-- else try compiling bedtools from source
-- else 
+    else try compiling bedtools from source
+    else 
     switch to Docker image instead of Conda env;
     use brew install bedtools
 - confirm Oscar will use -x64 arch
 - finish SLURM batch script for Oscar
 - finish Oscar use instructions
+- check if Oscar already has commandline tools
 
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
@@ -37,6 +33,9 @@
 - finish function to intersect peaks across replicates
 - General use instructions for Oscar
 - deal with discrepancy between the protocol and the paper for macs2 settings -> using the more restrictive/detailed paper settings
+- for Picard `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all? -> none
+- decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control -> Trimmomatic 
+- how to get FASTA files for adapter trimming? -> TruSeq3-PE.fa
 
 ## Use Instructions:
 The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
