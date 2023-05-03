@@ -1,4 +1,6 @@
-#----------- cross-treatment functions-----------------#
+#!/bin/bash
+
+# ----------- cross-treatment functions -------------- #
 
 # 6. MACs2 (v2.1.1) to call peaks of DRIP versus Input using broad peak settings, 
 # 7. again calling with DRIP versus RNase H-treated DRIP

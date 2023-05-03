@@ -4,12 +4,9 @@
 ## To-Do:
 
 **Preprocessing Functions**
-- for `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all?
+- for Picard `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all?
 - decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control
 - how to get FASTA files for adapter trimming?
-
-**Workflow Functions**
-- deal with discrepancy between the protocol and the paper for macs2 settings
 
 **Dependency Management and Oscar Compatibility**
 - see if `bedtools-2.30.0` release will run
@@ -39,6 +36,7 @@
 - finish call peaks between treatments
 - finish function to intersect peaks across replicates
 - General use instructions for Oscar
+- deal with discrepancy between the protocol and the paper for macs2 settings -> using the more restrictive/detailed paper settings
 
 ## Use Instructions:
 The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
@@ -84,6 +82,7 @@ Method 1:
 In Finder, `cmd-K` to open the **Connect to Server** window.
 
 Enter `smb://smb.ccv.brown.edu/home/<username>` and press **Connect**.
+
 
 
 

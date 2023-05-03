@@ -1,3 +1,5 @@
+#!/bin/bash
+
 REPS={1..3}
 
 #------------ per-treatment, preprocessing functions -----------------#
@@ -86,9 +88,8 @@ function trim_adaptors {
   ILLUMINACLIP:TruSeq3-PE.fa:2:30:15 \
   # LEADING:3 \ not included in GenPipes
   TRAILING:30 \
-  SLIDINGWINDOW:4:15 \
+  #SLIDINGWINDOW:4:15 \
   MINLEN:50
-  # TODO: check steps
   echo "Adaptors trimmed from ${in_forward_file} and ${in_reverse_file}, ${treatment}, ${rep_num}"
 }
 
