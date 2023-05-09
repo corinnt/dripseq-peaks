@@ -6,6 +6,7 @@
 
 # use more than one node if MPI enabled (it's not)
 #SBATCH -N 1
+
 # how to choose number cores? 
 #SBATCH -c 1
 #SBATCH -J  dripseq-peaks

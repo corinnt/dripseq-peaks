@@ -32,8 +32,7 @@ function call_peaks {
 }
 
 # 8. BEDTools intersect to retain peaks present in both 
-# 9. BEDTools to retain only peaks present in both replicates
-# function to be called to compare across treatment groups and across replicates
+# function to be called to compare across treatment groups 
 function intersect_peaks_two{
   if [ $# != 4 ] then 
     echo  "intersect_peaks_two correct usage: intersect_peaks <group A> <group B> <file A> <file B>"
@@ -46,9 +45,10 @@ function intersect_peaks_two{
 
   local output_bed="filtered_peaks_${versus_A}-${versus_B}.bed"
 
+  cd ..
   cd $outdir
   touch $output_bed
-  cd ..
+  cd_code
   
   bedtools intersect 
     -a "intermed/${input_A_file}" \
@@ -58,6 +58,8 @@ function intersect_peaks_two{
   echo "Peak intersect ${versus_A} vs ${versus_B} saved to ${output_bed}, rep ${rep_num}"
 }
 
+# 9. BEDTools to retain only peaks present in both replicates
+# function to be called to compare across across replicates
 intersect_peaks_three{
   if [ $# != 4 ] then 
     echo  "intersect_peaks_three correct usage: intersect_peaks <group A> <group B> <group C> <file A> <file B> <file C> <indir> <outdir>"
@@ -69,10 +71,11 @@ intersect_peaks_three{
   local input_C_file=$4
 
   local output_bed="filtered_peaks_${direction}.bed"
-
+  
+  cd ..
   cd $outdir
   touch $output_bed
-  cd ..
+  cd_code
   
   bedtools intersect 
     -a "intermed/${input_A_file}" \

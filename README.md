@@ -17,6 +17,7 @@
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
 - replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
+- workflow visualization for README
 
 **Complete**
 - compile documentation on packages and tools
