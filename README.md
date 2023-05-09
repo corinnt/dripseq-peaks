@@ -16,8 +16,8 @@
 
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
-- replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
 - workflow visualization for README
+- visualization calls in `main`
 
 **Complete**
 - compile documentation on packages and tools
@@ -37,6 +37,8 @@
 - for Picard `mark_duplicates`, `REMOVE_DUPLICATES` or `REMOVE_SEQUENCING_DUPLICATES` or none at all? -> none
 - decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control -> Trimmomatic 
 - how to get FASTA files for adapter trimming? -> TruSeq3-PE.fa
+- replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
+
 
 ## Use Instructions:
 The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
