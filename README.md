@@ -9,7 +9,7 @@
 
 [Environment and Dependencies Info](https://github.com/corinnt/dripseq-peaks#environment-and-dependencies-info)
 
-[Workflow Illustration]https://github.com/corinnt/dripseq-peaks#workflow-illustration-in-progress)
+[Workflow Illustration](https://github.com/corinnt/dripseq-peaks#workflow-illustration-in-progress)
 
 
 ## To-Do:
