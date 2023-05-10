@@ -45,6 +45,7 @@ function bigwig_summary_three {
 
 function plot_correlation {
     local datapath=$1
+    
     local datafile=${datapath##*/}
     local plot="output/${datafile%%.*}.pdf"
 

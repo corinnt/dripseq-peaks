@@ -121,8 +121,6 @@ Or is this what's at the top of the file?
 <!--- Make code --->
     sbatch scheduler.sh
 
-**TODO:** Confirm running a batch script keeps the script from running on the login node. 
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [How to adjust the batch script arguments](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *You can run the `myq` command to check the status (pending or running) of the job in the queue.* 
