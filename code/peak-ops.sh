@@ -33,7 +33,7 @@ function call_peaks {
 
 # 8. BEDTools intersect to retain peaks present in both 
 # function to be called to compare across treatment groups 
-function intersect_peaks_two{
+function intersect_peaks_two {
   if [ $# != 4 ] then 
     echo  "intersect_peaks_two correct usage: intersect_peaks <group A> <group B> <file A> <file B>"
   fi 

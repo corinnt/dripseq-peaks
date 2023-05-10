@@ -75,10 +75,10 @@ function trim_adaptors {
   done
   cd_code
   
-  local reverse_unpair_path="intermed/reverse_unpair_${treatment}_${rep_num}"
-  local out_forward_pair="intermed/forward_pair_${treatment}_${rep_num}"
-  local forward_unpair_path="intermed/forward_unpair_${treatment}_${rep_num}"
-  local reverse_pair_path="intermed/reverse_pair_${treatment}_${rep_num}"
+  local reverse_unpair_path="intermed/reverse_unpair_${treatment}_${rep_num}.fq.gz"
+  local out_forward_pair="intermed/forward_pair_${treatment}_${rep_num}.fq.gz"
+  local forward_unpair_path="intermed/forward_unpair_${treatment}_${rep_num}.fq.gz"
+  local reverse_pair_path="intermed/reverse_pair_${treatment}_${rep_num}.fq.gz"
 
   #to use trimmomatic
   java -jar "${TOOLS_PATH}/Trimmomatic-0.39/trimmomatic-0.39.jar" PE -phred33 \
@@ -134,6 +134,7 @@ function sam2sorted_bam {
 
   local out_sorted_bam="sorted_${treatment}_${rep_num}.bam"
   local index_bai="indexed_${treatment}_${rep_num}.bai"
+
   cd_intermed
   touch "${out_sorted_bam}"
   touch "${index_bai}"
@@ -152,7 +153,7 @@ function sam2sorted_bam {
 # 4. Picard to mark duplicates to filter PCR duplicates
 # http://broadinstitute.github.io/picard/
 # java -jar ~/desktop/spring_2023/drip-seq/tools/picard.jar -h
-function mark_duplicates{
+function mark_duplicates {
   if [ $# != 3 ]; then
     echo  "mark_duplicates correct usage: mark_duplicates <treatment> <rep_num> <input_bam>"
   fi 
@@ -176,7 +177,7 @@ function mark_duplicates{
 }
 
 # 5. generate strand-specific BAM files 
-function strand_specific_bam{ 
+function strand_specific_bam { 
   if [ $# != 3 ]; then
     echo  "strand_specific_bam correct usage: strand_specific_bam <treatment> <rep_num> <input_bam>"
   fi 

@@ -60,13 +60,11 @@ function intersect_exp_peaks_across_groups {
                         "fDRIP-Input-${rep_num}" \
                         "forward_RNaseH_${rep_num}_summits.bed" \
                         "forward_Input_${rep_num}_summits.bed" \
-                        "intermed/macs2" 
-                        "intermed/macs2"
 
-    intersect_peaks "rDRIP-RNaseH-${rep_num}"  "rDRIP-Input-${rep_num}"  \
-                    "reverse_RNaseH_${rep_num}_summits.bed" "reverse_Input_${rep_num}_summits.bed" \
-                    "intermed/macs2" "intermed/macs2"
-
+    intersect_peaks_two "rDRIP-RNaseH-${rep_num}" \
+                    "rDRIP-Input-${rep_num}"  \
+                    "reverse_RNaseH_${rep_num}_summits.bed" \
+                    "reverse_Input_${rep_num}_summits.bed" \
   done
   # outputs to "filtered_peaks_${versus_A}-${versus_B}.bed"
 }

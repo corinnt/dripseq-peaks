@@ -136,3 +136,7 @@ The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended
 Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
 
 The JAR files for Trimmomatic and samtools as well as the executables for bedtools and picard should be added to the `tools/` directory (not committed). 
+
+## Workflow illustration
+
+![alt text](workflow-illustration.png?raw=true)
