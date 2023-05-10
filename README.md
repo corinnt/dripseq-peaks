@@ -1,7 +1,19 @@
 # Pipeline to identify R-loop peaks from DRIP-seq data
 
 *Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan*
+## Table of Contents
+
+[To-D0](https://github.com/corinnt/dripseq-peaks#to-do)
+
+[Use Instructions](https://github.com/corinnt/dripseq-peaks#use-instructions)
+
+[Environment and Dependencies Info](https://github.com/corinnt/dripseq-peaks#environment-and-dependencies-info)
+
+[Workflow Illustration](https://github.com/corinnt/dripseq-peaks#workflow-illustrations)
+
+
 ## To-Do:
+
 
 **Dependency Management and Oscar Compatibility**
 - compile `bedtools` and `samtools` from source
