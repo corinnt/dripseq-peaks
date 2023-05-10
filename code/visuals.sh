@@ -45,13 +45,15 @@ function bigwig_summary_three {
 
 function plot_correlation {
     local datapath=$1
-    
+
     local datafile=${datapath##*/}
-    local plot="output/${datafile%%.*}.pdf"
+    local plot="output/${datafile%%.*}_plot.pdf"
 
 
     plotCorrelation --corData "$datafile" \
                     --corMethod pearson \
                     --whatToPlot scatterplot \
                     -o $plot
+
+    echo "Correlation plot $plot generated."
 }

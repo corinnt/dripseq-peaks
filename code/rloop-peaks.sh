@@ -18,8 +18,12 @@ function main {
   #TREATMENTS=($1 $2 $3)
   preprocess_all 
   call_exp_peaks
+  
   intersect_exp_peaks_across_groups
   intersect_exp_peaks_across_reps
+
+  all_bigwig_summaries
+  all_plot_correlations
 }
 #------------- abstracted experiment-specific calls ----------------------#
 
@@ -52,9 +56,12 @@ function intersect_exp_peaks_across_groups {
     # todo: confirm macs2 naming convention. think its ${strand_direction}_${treatment}_${rep_num}_summits.bed
     # todo: figure out if need to keep separated by strands at this point
     # intersect_peaks correct usage: intersect_peaks <group A> <group B> <file A> <file B> <indir> <outdir>
-    intersect_peaks_two "fDRIP-RNaseH-${rep_num}" "fDRIP-Input-${rep_num}" \
-                    "forward_RNaseH_${rep_num}_summits.bed" "forward_Input_${rep_num}_summits.bed" \
-                    "intermed/macs2" "intermed/macs2"
+    intersect_peaks_two "fDRIP-RNaseH-${rep_num}" \
+                        "fDRIP-Input-${rep_num}" \
+                        "forward_RNaseH_${rep_num}_summits.bed" \
+                        "forward_Input_${rep_num}_summits.bed" \
+                        "intermed/macs2" 
+                        "intermed/macs2"
 
     intersect_peaks "rDRIP-RNaseH-${rep_num}"  "rDRIP-Input-${rep_num}"  \
                     "reverse_RNaseH_${rep_num}_summits.bed" "reverse_Input_${rep_num}_summits.bed" \
@@ -76,6 +83,21 @@ function intersect_exp_peaks_across_reps {
       "filtered_peaks_fDRIP-RNaseH-1-fDRIP-Input-1.bed" \
       "filtered_peaks_fDRIP-RNaseH-2-fDRIP-Input-2.bed" \
       "filtered_peaks_fDRIP-RNaseH-3-fDRIP-Input-3.bed" \
+}
+
+function all_bam2bigwigs {
+
+}
+
+function all_bigwig_summaries {
+  all_bam2bigwigs
+
+
+
+}
+
+function all_plot_correlations {
+
 }
 
 main # call main with command line input: main "$@" 
