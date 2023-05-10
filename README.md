@@ -4,14 +4,10 @@
 ## To-Do:
 
 **Dependency Management and Oscar Compatibility**
-- see if `bedtools-2.30.0` release will run
-    else try compiling bedtools from source
-    else 
-    switch to Docker image instead of Conda env;
-    use brew install bedtools
-- confirm Oscar will use -x64 arch
+- compile `bedtools` and `samtools` from source
+- confirm Oscar will be able to use -x64 rosetta environment
 - finish SLURM batch script for Oscar
-- finish Oscar use instructions
+- finish Oscar README use instructions
 - check if Oscar already has commandline tools
 
 **Next Directions**
@@ -137,6 +133,6 @@ Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTo
 
 The JAR files for Trimmomatic and samtools as well as the executables for bedtools and picard should be added to the `tools/` directory (not committed). 
 
-## Workflow illustration
+## Workflow illustration (in progress)
 
 ![alt text](workflow-illustration.png?raw=true)
