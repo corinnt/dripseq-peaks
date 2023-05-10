@@ -3,13 +3,13 @@
 *Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan*
 ## Table of Contents
 
-[To-D0](https://github.com/corinnt/dripseq-peaks#to-do)
+[To-Do](https://github.com/corinnt/dripseq-peaks#to-do)
 
 [Use Instructions](https://github.com/corinnt/dripseq-peaks#use-instructions)
 
 [Environment and Dependencies Info](https://github.com/corinnt/dripseq-peaks#environment-and-dependencies-info)
 
-[Workflow Illustration](https://github.com/corinnt/dripseq-peaks#workflow-illustrations)
+[Workflow Illustration]https://github.com/corinnt/dripseq-peaks#workflow-illustration-in-progress)
 
 
 ## To-Do:
