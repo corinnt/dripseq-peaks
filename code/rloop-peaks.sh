@@ -89,9 +89,7 @@ function all_bam2bigwigs {
 
 function all_bigwig_summaries {
   all_bam2bigwigs
-
-
-
+  
 }
 
 function all_plot_correlations {

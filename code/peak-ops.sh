@@ -45,10 +45,9 @@ function intersect_peaks_two {
 
   local output_bed="filtered_peaks_${versus_A}-${versus_B}.bed"
 
-  cd ..
-  cd $outdir
+  cd ../$outdir
   touch $output_bed
-  cd_code
+  cd ../code
   
   bedtools intersect 
     -a "intermed/${input_A_file}" \
@@ -72,10 +71,9 @@ intersect_peaks_three{
 
   local output_bed="filtered_peaks_${direction}.bed"
   
-  cd ..
-  cd $outdir
+  cd ../$outdir
   touch $output_bed
-  cd_code
+  cd ../code
   
   bedtools intersect 
     -a "intermed/${input_A_file}" \

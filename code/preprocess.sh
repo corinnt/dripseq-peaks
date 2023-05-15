@@ -67,13 +67,13 @@ function trim_adaptors {
   local in_forward_file="data/${in_forward_file}"
   local in_reverse_file="data/${in_reverse_file}"
 
-  cd_intermed
+  cd ../intermed
   tags=("forward_pair" "forward_unpair" "reverse_pair" "reverse_unpair")
   for tag in "${tags[@]}"
   do 
     touch "${tag}_${treatment}_${rep_num}.fq.gz"
   done
-  cd_code
+  cd ../code
   
   local reverse_unpair_path="intermed/reverse_unpair_${treatment}_${rep_num}.fq.gz"
   local out_forward_pair="intermed/forward_pair_${treatment}_${rep_num}.fq.gz"
@@ -106,9 +106,9 @@ function align_reads {
   local reverse_reads_file=$4
 
   local output_sam_path="intermed/aligned_${treatment}_${rep_num}.sam"
-  cd_intermed
+  cd ../intermed
   touch "$output_sam_path"
-  cd_code
+  cd ../code
 
   bowtie2 -x "BDGP6" \
   -1 "intermed/${forward_reads_file}" \
@@ -135,10 +135,10 @@ function sam2sorted_bam {
   local out_sorted_bam="sorted_${treatment}_${rep_num}.bam"
   local index_bai="indexed_${treatment}_${rep_num}.bai"
 
-  cd_intermed
+  cd ../intermed
   touch "${out_sorted_bam}"
   touch "${index_bai}"
-  cd_code
+  cd ../code
 
   temp_out_bam=$(mktemp)
 
@@ -163,10 +163,10 @@ function mark_duplicates {
 
   local marked_duplicates="marked_duplicates_${treatment}_${rep_num}.bam"
   local marked_dup_metrics="marked_dup_metrics_${treatment}_${rep_num}.txt"
-  cd_intermed
+  cd ../intermed
   touch "$marked_duplicates"
   touch "$marked_dup_metrics"
-  cd_code
+  cd ../code
 
   java -jar "${TOOLS_PATH}/picard.jar" MarkDuplicates \
       I="$input_bam" \
@@ -187,10 +187,10 @@ function strand_specific_bam {
 
   local out_forward="forward_${treatment}_${rep_num}.bam"
   local out_reverse="reverse_${treatment}_${rep_num}.bam"
-  cd_intermed
+  cd ../intermed
   touch "$out_forward"
   touch "$out_reverse"
-  cd_code
+  cd ../code
 
   temp_forward99=$(mktemp)
   temp_forward147=$(mktemp)
@@ -215,14 +215,4 @@ function strand_specific_bam {
   rm $temp_reverse163
 
   echo "Strand-specific BAM files generated for ${in_bam};  ${treatment}, ${rep_num}"
-}
-
-function cd_intermed {
-  cd ..
-  cd intermed
-}
- 
-function cd_code {
-  cd ..
-  cd code
 }

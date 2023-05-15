@@ -14,18 +14,20 @@
 
 ## To-Do:
 
+**Visualizations**
+- clarify which comparison groups/intersections to use
+- visualization calls in `main`
 
 **Dependency Management and Oscar Compatibility**
 - compile `bedtools` and `samtools` from source
 - confirm Oscar will be able to use -x64 rosetta environment
-- finish SLURM batch script for Oscar
+- finish SLURM batch script for Oscar - go to COBRE hours
+- check if Oscar already has commandline tools - also COBRE
 - finish Oscar README use instructions
-- check if Oscar already has commandline tools
 
 **Next Directions**
 - test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
-- workflow visualization for README
-- visualization calls in `main`
+- finish workflow illustration for README
 
 **Complete**
 - compile documentation on packages and tools
