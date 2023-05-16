@@ -1,6 +1,6 @@
 #!/bin/bash
 #export PATH="~/bin:$PATH"
-export PATH=$PATH:~/Desktop/Spring_2023/drip-seq/tools
+#export PATH=$PATH:~/Desktop/Spring_2023/drip-seq/tools
 set -e
 set -u
 set -o pipefail
@@ -89,7 +89,7 @@ function all_bam2bigwigs {
 
 function all_bigwig_summaries {
   all_bam2bigwigs
-  
+
 }
 
 function all_plot_correlations {
