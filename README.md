@@ -55,33 +55,6 @@
 ## Use Instructions:
 The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
-### On Local Machine: (leaving directions for now, but computation too large for local machines)
-
-1. Activate the virtual environment `rloops-x64`
-
-&nbsp;&nbsp;&nbsp;&nbsp;  For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
-
-&nbsp;&nbsp;&nbsp;&nbsp;  Otherwise, run `conda activate rloops-x64` in terminal
-
-2. Input data should be placed in data/ directory with the following naming convention:
-
-    forward_< treament >_< replicate number >
-
-    reverse_< treament >_< replicate number >
-
-&nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
-
-If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
-
-3. Uncomment 3 line of `/code/rloop-peaks.sh` (adds /tools directory to system path variable - not needed for Oscar)
-
-`export PATH=$PATH:~/<path>/<path>/drip-seq/tools`
-
-3. Run from inside the `drip-seq` directory:
-
-    `./rloop-peaks.sh` 
-
-
 ### On Oscar, Brown's shared compute cluster:
 *These directions are still a work in progress.*
 1. Use `ssh` to connect to connect to Oscar:
@@ -139,9 +112,35 @@ Or is this what's at the top of the file?
 
 7. Once the job is complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
 
-8. You can also copy the files from OSCAR to your local computer:
+8. You can also copy the files from OSCAR to your local computer with:
 <!--- Make code --->
     scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file
+
+### On Local Machine: (leaving directions for now, but computation too large for local machines)
+
+1. Activate the virtual environment `rloops-x64`
+
+&nbsp;&nbsp;&nbsp;&nbsp;  For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
+
+&nbsp;&nbsp;&nbsp;&nbsp;  Otherwise, run `conda activate rloops-x64` in terminal
+
+2. Input data should be placed in data/ directory with the following naming convention:
+
+    forward_< treament >_< replicate number >
+
+    reverse_< treament >_< replicate number >
+
+&nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
+
+If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
+
+3. Uncomment 3 line of `/code/rloop-peaks.sh` (adds /tools directory to system path variable - not needed for Oscar)
+
+`export PATH=$PATH:~/<path>/<path>/drip-seq/tools`
+
+3. Run from inside the `drip-seq` directory:
+
+    `./rloop-peaks.sh` 
 
 ## Environment and Dependencies Info:
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
