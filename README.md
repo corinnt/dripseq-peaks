@@ -15,14 +15,13 @@
 ## To-Do:
 
 **Visualizations**
-- clarify which comparison groups/intersections to use
 - visualization calls in `main`
 
 **Dependency Management and Oscar Compatibility**
-- compile `bedtools` and `samtools` from source
 - confirm Oscar will be able to use -x64 rosetta environment
-- finish SLURM batch script for Oscar - go to COBRE hours
-- check if Oscar already has commandline tools - also COBRE
+- check which tools OSCAR has with `module avail bed*` 
+- fix (or delete if Oscar has Trimmomatic on path) `TOOLS_PATH` variable in `rloop-peaks.sh`
+- finish SLURM batch script for Oscar - go to COBRE hours if needed
 - finish Oscar README use instructions
 
 **Next Directions**
@@ -48,12 +47,15 @@
 - decide between using GenPipes or Trimmomatic to trim adaptors and perform quality control -> Trimmomatic 
 - how to get FASTA files for adapter trimming? -> TruSeq3-PE.fa
 - replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
+- clarify which comparison groups/intersections to use in viz -> intersect across replicates not treatments
+- compile `bedtools` and `samtools` from source -> nvm, will use tools in OSCAR
+
 
 
 ## Use Instructions:
 The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
-### On Local Machine: 
+### On Local Machine: (leaving directions for now, but computation too large for local machines)
 
 1. Activate the virtual environment `rloops-x64`
 
@@ -69,7 +71,7 @@ The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP'
 
 &nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
 
-If different file names are preferred, this pattern can be changed in the `preprocess.sh` file in `trim_adaptors_across_reps`. 
+If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
 
 3. Uncomment 3 line of `/code/rloop-peaks.sh` (adds /tools directory to system path variable - not needed for Oscar)
 
