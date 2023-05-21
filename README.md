@@ -14,18 +14,22 @@
 
 ## To-Do:
 
-**Visualizations**
-- visualization calls in `main`
-
 **Dependency Management and Oscar Compatibility**
-- confirm Oscar will be able to use -x64 rosetta environment
 - check which tools OSCAR has with `module avail bed*` 
-- fix (or delete if Oscar has Trimmomatic on path) `TOOLS_PATH` variable in `rloop-peaks.sh`
+- confirm Oscar will be able to use -x64 rosetta environment (or that all the tools are already on Oscar)
+- fix `TOOLS_PATH` variable in `rloop-peaks.sh`(or delete if Oscar has Trimmomatic on path)
 - finish SLURM batch script for Oscar - go to COBRE hours if needed
 - finish Oscar README use instructions
 
+**Visualizations**
+- visualization calls in `main` once we get clarifications from other lab
+
 **Next Directions**
-- test on data from original paper [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
+- move original paper data onto Oscar [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
+    data table → s2 cells → samples 'More' → last 6 links; for each click SRA; use [SRA toolkit](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) to download large files 
+
+- test on data from original paper 
+
 - finish workflow illustration for README
 
 **Complete**
