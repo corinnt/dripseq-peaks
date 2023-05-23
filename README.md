@@ -1,6 +1,6 @@
 # Pipeline to identify R-loop peaks from DRIP-seq data
 
-*Work in progress! BIOL1960 Independent Study project under Dr. Erica Larschan*
+*Work in progress! BIOL1960 Directed Research project under Dr. Erica Larschan*
 ## Table of Contents
 
 [To-Do](https://github.com/corinnt/dripseq-peaks#to-do)
@@ -26,6 +26,7 @@
 
 **Next Directions**
 - move original paper data onto Oscar [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
+
     data table → s2 cells → samples 'More' → last 6 links; for each click SRA; use [SRA toolkit](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) to download large files 
 
 - test on data from original paper 
