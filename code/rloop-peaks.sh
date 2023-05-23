@@ -42,11 +42,11 @@ function call_exp_peaks {
   # TODO: unhardcode
   for rep_num in $reps
   do 
-    call_peaks 'DRIP' 'RNaseH' $rep_num "forward"
-    call_peaks 'DRIP' 'RNaseH' $rep_num "reverse"
+    call_peaks 'DRIP' 'RNaseH' $rep_num 'f'
+    call_peaks 'DRIP' 'RNaseH' $rep_num 'r'
 
-    call_peaks 'DRIP' 'Input' $rep_num "forward"
-    call_peaks 'DRIP' 'Input' $rep_num "reverse"
+    call_peaks 'DRIP' 'Input' $rep_num 'f'
+    call_peaks 'DRIP' 'Input' $rep_num 'r'
   done
 }
 
@@ -56,15 +56,11 @@ function intersect_exp_peaks_across_groups {
     # todo: confirm macs2 naming convention. think its ${strand_direction}_${treatment}_${rep_num}_summits.bed
     # todo: figure out if need to keep separated by strands at this point
     # intersect_peaks correct usage: intersect_peaks <group A> <group B> <file A> <file B> <indir> <outdir>
-    intersect_peaks_two "fDRIP-RNaseH-${rep_num}" \
-                        "fDRIP-Input-${rep_num}" \
-                        "forward_RNaseH_${rep_num}_summits.bed" \
-                        "forward_Input_${rep_num}_summits.bed" \
+    intersect_peaks_two "macs2/fRNaseH_${rep_num}_summits.bed" \
+                        "macs2/fInput_${rep_num}_summits.bed" \
 
-    intersect_peaks_two "rDRIP-RNaseH-${rep_num}" \
-                    "rDRIP-Input-${rep_num}"  \
-                    "reverse_RNaseH_${rep_num}_summits.bed" \
-                    "reverse_Input_${rep_num}_summits.bed" \
+    intersect_peaks_two "macs2/rRNaseH_${rep_num}_summits.bed" \
+                        "macs2/rInput_${rep_num}_summits.bed" \
   done
   # outputs to "filtered_peaks_${versus_A}-${versus_B}.bed"
 }
@@ -72,15 +68,18 @@ function intersect_exp_peaks_across_groups {
 function intersect_exp_peaks_across_reps {
     intersect_peaks_three 
       'forward' \
-      "filtered_peaks_fDRIP-RNaseH-1-fDRIP-Input-1.bed" \
-      "filtered_peaks_fDRIP-RNaseH-2-fDRIP-Input-2.bed" \
-      "filtered_peaks_fDRIP-RNaseH-3-fDRIP-Input-3.bed" \
+      "filtered_peaks_fRNaseH_1-fInput_1.bed" \
+      "filtered_peaks_fRNaseH_2-fInput_2.bed" \
+      "filtered_peaks_fRNaseH_3-fInput_3.bed" \
+    #populates output/filtered_peaks_forward.bed
 
     intersect_peaks_three 
       'reverse' \
-      "filtered_peaks_fDRIP-RNaseH-1-fDRIP-Input-1.bed" \
-      "filtered_peaks_fDRIP-RNaseH-2-fDRIP-Input-2.bed" \
-      "filtered_peaks_fDRIP-RNaseH-3-fDRIP-Input-3.bed" \
+      "filtered_peaks_rRNaseH_1-rDRIP_1.bed" \
+      "filtered_peaks_rRNaseH_2-rDRIP_2.bed" \
+      "filtered_peaks_rRNaseH_3-rDRIP_3.bed" \
+    #populates output/filtered_peaks_reverse.bed
+
 }
 
 function all_bam2bigwigs {

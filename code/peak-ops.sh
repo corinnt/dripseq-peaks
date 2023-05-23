@@ -22,9 +22,9 @@ function call_peaks {
   -t "intermed/${strand_direction}_${treatment}.bam" \
   -c "intermed/${strand_direction}_${control}.bam" \
   -f BAMPE -bw 250                                        # format, bandwidth
-  -g dm -n "${strand_direction}_vs${control}_${rep_num}"  # genome size, name for files
+  -g dm -n "${strand_direction}${control}_${rep_num}"  # genome size, name for files
   –mfold 10 30 -q 0.01                                    # mfold range, qvalue/minimum FDR for peak detection
-  --outdir intermed/macs2 
+  --outdir intermed/macs2
   2> intermed/macs2/peak-log.log \
   --broad \
   
@@ -34,14 +34,18 @@ function call_peaks {
 # 8. BEDTools intersect to retain peaks present in both 
 # function to be called to compare across treatment groups 
 function intersect_peaks_two {
-  if [ $# != 4 ] then 
-    echo  "intersect_peaks_two correct usage: intersect_peaks <group A> <group B> <file A> <file B>"
+  if [ $# != 2 ] then 
+    echo  "intersect_peaks_two correct usage: intersect_peaks <file A> <file B>"
   fi 
 
-  local versus_A=$1
-  local versus_B=$2
-  local input_A_file=$3
-  local input_B_file=$4
+  local input_A_file=$1
+  local input_B_file=$2
+
+  local dir_versus_A =${input_A_file%%_summits.bed} # this doesn't get rid of number
+  local versus_A =${dir_versus_A##*/}
+
+  local dir_versus_B=${input_B_file%%_summits.bed}
+  local versus_B=${dir_versus_B##*/}
 
   local output_bed="filtered_peaks_${versus_A}-${versus_B}.bed"
 
