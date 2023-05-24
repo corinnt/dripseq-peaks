@@ -63,7 +63,7 @@ function intersect_peaks_two {
 
 # 9. BEDTools to retain only peaks present in both replicates
 # function to be called to compare across across replicates
-intersect_peaks_three{
+intersect_peaks_three {
   if [ $# != 4 ] then 
     echo  "intersect_peaks_three correct usage: intersect_peaks <group A> <group B> <group C> <file A> <file B> <file C> <indir> <outdir>"
   fi 

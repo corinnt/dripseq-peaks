@@ -23,6 +23,7 @@
 
 **Visualizations**
 - visualization calls in `main` once we get clarifications from other lab
+- add viz info to README illustration
 
 **Next Directions**
 - move original paper data onto Oscar [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
@@ -31,7 +32,6 @@
 
 - test on data from original paper 
 
-- finish workflow illustration for README
 
 **Complete**
 - compile documentation on packages and tools
@@ -54,6 +54,8 @@
 - replicate peak visualizations w/ deepTools multiBigwigSummary and plotCorrelation (Pearson)
 - clarify which comparison groups/intersections to use in viz -> intersect across replicates not treatments
 - compile `bedtools` and `samtools` from source -> nvm, will use tools in OSCAR
+- workflow illustration for README
+
 
 
 
