@@ -1,56 +1,6 @@
 #!/bin/bash
 
-REPS={1..3}
-
-#------------ per-treatment, preprocessing functions -----------------#
-# Given a treatment, trims adaptors across the 3 replicates in that treatment 
-function trim_adaptors_across_reps{
-  local treatment=$1
-
-  for rep_num in $reps
-  do 
-    local forward_file="forward_${treatment}_${rep_num}.fq.gz"
-    local reverse_file="reverse_${treatment}_${rep_num}.fq.gz"
-    trim_adaptors $treatment $rep_num "$forward_file" "$reverse_file"
-  done
-}
-
-# Given a treatment, aligns paired reads across the 3 replicates in that treatment 
-# Creates per rep "intermed/aligned_${treatment}_${rep_num}.sam"
-function align_reads_across_reps{
-  local treatment=$1
-  for rep_num in $reps
-  do 
-    #todo: need to align unpaired as well?
-    align_reads $treatment $rep_num "forward_pair_${treatment}_${rep_num}.sam" "reverse_pair_${treatment}_${rep_num}.sam"
-  done
-}
-
-function sam2sorted_bam_across_reps{
-  local treatment=$1
-  for rep_num in $reps
-  do 
-    sam2sorted_bam $treatment $rep_num "aligned_${treatment}_${rep_num}.sam"
-  done
-}
-
-function mark_duplicates_across_reps{
-  local treatment=$1
-  for rep_num in $reps
-  do 
-    mark_duplicates $treatment $rep_num "sorted_${treatment}_${rep_num}.bam"
-  done
-}
-
-function strand_specific_bam_across_reps{
-  local treatment=$1
-  for rep_num in $reps
-  do 
-    strand_specific_bam $treatment $rep_num "marked_duplicates_${treatment}_${rep_num}.bam"
-  done
-}
-
-#--------------------- protocol per-step functions -----------------------#
+#---------------- preprocessing functions to be performed on all files -----------------------#
 
 # 1. trim adaptors + remove low-quality reads w Trimmomatic 
 # fq.gz files are FASTQ compressed with GZIP
