@@ -11,18 +11,20 @@ def main(treatments, reps):
     Returns: NA
 
     Side affects: 
-    Writes 
+    Writes the all bash commands for analysis to batch-script.sh
     """
-    write("#!/bin/bash")
+    with open('batch-script.sh', mode='wt') as script:
+        script.write("#!/bin/bash\n")
 
     preprocess(treatments, reps) 
     call_exp_peaks(reps)
   
-    intersect_exp_peaks_across_groups()
-    intersect_exp_peaks_across_reps()
+    intersect_exp_peaks_across_groups(reps)
+    intersect_exp_peaks_across_reps(reps)
 
-def write(text, newline=True):
-    with open('batch-script.sh', mode='wt') as script:
+def write(text, comment=None, newline=True):
+    with open('batch-script.sh', mode='a') as script:
+        if comment: text += "\n# " + comment
         if newline: text += "\n"
         script.write(text)
 
@@ -42,8 +44,9 @@ def call_exp_peaks(reps):
     for rep in range(reps):
         for direction in directions:
             for control in controls:
-                command = ". peak-ops.sh; call_peaks 'DRIP' " + control + " " + rep + " " + direction
-                write(command)
+                command = ". peak-ops.sh; call_peaks 'DRIP' " + control + " " + str(rep) + " " + direction
+                comment = "Writes to intermed/macs2/" + direction + control + "_" + str(rep) + "_summits.bed"
+                write(command, comment=comment)
                 
 def intersect_exp_peaks_across_groups(reps):
     # todo: confirm macs2 naming convention. think its ${strand_direction}_${treatment}_${rep_num}_summits.bed
@@ -52,36 +55,35 @@ def intersect_exp_peaks_across_groups(reps):
     controls = ('RNaseH', 'Input')
     for rep in range(reps):
         for direction in directions:
-            command = ". peak-ops.sh; intersect_peaks_two"
+            command = ". peak-ops.sh; intersect_peaks_two "
             write(command, newline=False)
             for control in controls:
-                file = "macs2/" + direction + control + "_" + rep + "_summits.bed"
+                file = "macs2/" + direction + control + "_" + str(rep) + "_summits.bed "
                 write(file, newline=False)
-            write("")
+            write("", comment = "Writes to filtered_peaks_< versusA-versus_B > .bed")
     # outputs to "filtered_peaks_${versus_A}-${versus_B}.bed"
 
-def intersect_exp_peaks_across_reps():
+def intersect_exp_peaks_across_reps(reps):
     #TODO: FIX / CONVERT
-    intersect_peaks_three('forward', 
-      "filtered_peaks_fRNaseH_1-fInput_1.bed", 
-      "filtered_peaks_fRNaseH_2-fInput_2.bed", 
-      "filtered_peaks_fRNaseH_3-fInput_3.bed")
-    #populates output/filtered_peaks_forward.bed
-
-    intersect_peaks_three('reverse', 
-      "filtered_peaks_rRNaseH_1-rDRIP_1.bed", 
-      "filtered_peaks_rRNaseH_2-rDRIP_2.bed", 
-      "filtered_peaks_rRNaseH_3-rDRIP_3.bed")
+    for direction in ('forward', 'reverse'):
+        command = "intersect_peaks_three " + direction
+        write(command, newline=False)
+        for rep in range(reps):
+            direct = direction[0]
+            file =  "filtered_peaks_" + direct + "RNaseH_" + str(rep) +  "-" + direct + "Input_" + str(rep) + ".bed "
+            write(file)
+        comment = "Writes to output/filtered_peaks_" + direction + ".bed"
+        write("", comment=comment)
     #populates output/filtered_peaks_reverse.bed
 
 #------------ per-treatment, preprocessing functions -----------------#
 # Given a treatment, trims adaptors across the 3 replicates in that treatment 
 
 def trim_adaptors_across_reps(treatment, reps):
-  for rep in reps:
-    forward_file = "forward_" + treatment + "_" + rep + ".fq.gz"
-    reverse_file = "reverse_" + treatment + "_" + rep + ".fq.gz"
-    command = ". preprocess.sh; trim_adaptors " + treatment + " " + rep + " " + forward_file + " " + reverse_file
+  for rep in range(reps):
+    forward_file = "forward_" + treatment + "_" + str(rep) + ".fq.gz"
+    reverse_file = "reverse_" + treatment + "_" + str(rep) + ".fq.gz"
+    command = ". preprocess.sh; trim_adaptors " + treatment + " " + str(rep) + " " + forward_file + " " + reverse_file
     write(command)
         #trim_adaptors treatment rep_num forward_file reverse_file
 
@@ -89,32 +91,32 @@ def trim_adaptors_across_reps(treatment, reps):
 # Creates per rep "intermed/aligned_${treatment}_${rep_num}.sam"
 def align_reads_across_reps(treatment, reps):
   for rep in range(reps):
-    file_suffix = "_pair_" + treatment + "_" + rep + ".sam"
-    command = ". preprocess.sh; align_reads " + treatment + " " + rep + " forward" + file_suffix + " reverse" + file_suffix
+    file_suffix = "_pair_" + treatment + "_" + str(rep) + ".sam"
+    command = ". preprocess.sh; align_reads " + treatment + " " + str(rep) + " forward" + file_suffix + " reverse" + file_suffix
     write(command)
 
 def sam2sorted_bam_across_reps(treatment, reps):
   for rep in range(reps):
-      file = "aligned_" + treatment + "_" + rep + ".sam"
-      command = ". preprocess.sh; sam2sorted_bam " + treatment + " " + rep + " " + file
+      file = "aligned_" + treatment + "_" + str(rep) + ".sam"
+      command = ". preprocess.sh; sam2sorted_bam " + treatment + " " + str(rep) + " " + file
       write(command)
 
 
 def mark_duplicates_across_reps(treatment, reps):
-    for rep in reps:
-        file = "sorted_" + treatment + "_" + rep + ".bam"
-        command = ". preprocess.sh; mark_duplicates " + treatment + " " + rep + " " + file
+    for rep in range(reps):
+        file = "sorted_" + treatment + "_" + str(rep) + ".bam"
+        command = ". preprocess.sh; mark_duplicates " + treatment + " " + str(rep) + " " + file
         write(command)
 
 def strand_specific_bam_across_reps(treatment, reps):
     for rep in range(reps):
-        file = "marked_duplicates_" + treatment + "_" + rep + ".bam"
-        command = ". preprocess.sh; strand_specific_bam " + treatment + " " + rep + " " + file
+        file = "marked_duplicates_" + treatment + "_" + str(rep) + ".bam"
+        command = ". preprocess.sh; strand_specific_bam " + treatment + " " + str(rep) + " " + file
         write(command)
 
         
 if __name__ == "__main__":
-    reps : int = open(sys.argv[1],'r').readlines()
+    reps : int = int(sys.argv[1])
     treatments = ('DRIP', 'RNaseH', 'Input')
     #treatments = sys.argv[2]
-    main(reps, treatments)
+    main(treatments, reps)
