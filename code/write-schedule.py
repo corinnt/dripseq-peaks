@@ -5,8 +5,8 @@ def main(treatments, reps):
     Outputs the cluster pattern in terminal and writes graphviz graph to given dot file
 
     Parameters: 
-        :param treatments: tuple of strings - all treatment groups (ie 'RNasH, DRIP, Input)
-        :param reps: list of strings - range of replicate numbers for each treatment
+        :param treatments: tuple of strings - all treatment groups (ie RNasH, DRIP, Input)
+        :param reps: list of strings - range of replicate numbers for each treatment (ie 1, 2, 3)
 
     Side effects: 
         Writes all bash commands for analysis to batch-script.sh
@@ -53,10 +53,10 @@ def call_exp_peaks(controls, reps):
     for rep in reps:
         for direction in directions:
             for control in controls:
-                command = ". peak-ops.sh; call_peaks 'DRIP' " + control + " " + rep + " " + direction
-                comment = "Writes to intermed/macs2/" + direction + control + "_" + rep + "_summits.bed"
-                write(command, comment=comment)
-    write("", comment="Experiment peaks called.\n")
+                command = ". peak-ops.sh; call_peaks DRIP " + control + " " + direction + " " + rep
+                #comment = "Writes to intermed/macs2/" + control + "_" + direction + rep + "_summits.bed"
+                write(command)
+    write("", comment="Experiment peaks called. Writes to intermed/macs2/<control>_<direction><rep>_summits.bed\n")
                 
 def intersect_peaks_across_groups(controls, reps):
     """ Intersects peaks between DRIP vs control 1 and DRIP vs control 2
@@ -68,31 +68,30 @@ def intersect_peaks_across_groups(controls, reps):
     # todo: confirm macs2 naming convention. think its ${strand_direction}_${treatment}_${rep_num}_summits.bed
     directions = ('f', 'r')
     for rep in reps:
-        for direction in directions:
+        for direct in directions:
             command = ". peak-ops.sh; intersect_peaks_two "
-            comment = "Writes to filtered_peaks_"
+            #comment = "Writes to filtered_peaks_" + direct + rep + ".bed"
             for control in controls:
-                file = "macs2/" + direction + control + "_" + rep + "_summits.bed"
+                file = "macs2/" + control + "_" + direct + rep + "_summits.bed"
                 command += file + " "
-                comment += direction + control + "_" + rep + "-"
-            write(command, comment = comment[0:-1] + ".bed")
+            command += rep + " " + direct
+            write(command)
     # outputs to "filtered_peaks_${versus_A}-${versus_B}.bed"
-    write("", comment="Peaks intersected across groups.\n")
+    write("", comment="Peaks intersected across groups. Writes to filtered_peaks_<direction><rep>.bed\n")
 
 def intersect_peaks_across_reps(reps):
     """ Intersects peaks between across replicates with same variables. 
         Results in final two BED files in output/ directory.
         :param reps: int - number of replicates for each group
     """
-    for direction in ("forward", "reverse"):
-        command = ". peak-ops.sh; intersect_peaks_three " + direction
+    for direct in ("f", "r"):
+        command = ". peak-ops.sh; intersect_peaks_three " + direct
         for rep in reps:
-            direct = direction[0]
-            file =  " filtered_peaks_" + direct + "RNaseH_" + rep +  "-" + direct + "Input_" + rep + ".bed"
+            file =  " filtered_peaks_" + direct + rep + ".bed"
             command += file
-        comment = "Writes to output/filtered_peaks_" + direction + ".bed"
-        write(command, comment=comment)
-    write("", comment="Peaks intersected across replicates.\n")
+        #comment = "Writes to output/filtered_peaks_" + direction + rep + ".bed"
+        write(command)
+    write("", comment="Peaks intersected across replicates. Writes to output/filtered_peaks_<direction><rep>.bed\n")
 
 #------------ per-treatment, preprocessing functions -----------------#
 # Given a treatment, trims adaptors across the 3 replicates in that treatment 
