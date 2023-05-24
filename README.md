@@ -18,7 +18,7 @@
 - check which tools OSCAR has with `module avail bed*` 
 - confirm Oscar will be able to use -x64 rosetta environment (or that all the tools are already on Oscar)
 - fix `TOOLS_PATH` variable in `rloop-peaks.sh`(or delete if Oscar has Trimmomatic on path)
-- finish SLURM batch script for Oscar - go to COBRE hours if needed
+- add Slurm commands to batch script - go to COBRE hours if needed
 - finish Oscar README use instructions
 
 **Visualizations**
@@ -28,7 +28,9 @@
 **Next Directions**
 - move original paper data onto Oscar [RNA-DNA strand exchange by the Drosophila Polycomb complex PRC2](https://www.nature.com/articles/s41467-020-15609-x)
 
-    data table → s2 cells → samples 'More' → last 6 links; for each click SRA; use [SRA toolkit](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) to download large files 
+    data availability: `data table > s2 cells > samples 'More' > last 6 links > for each click SRA`
+    
+    use [SRA toolkit](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) to download large files 
 
 - test on data from original paper 
 
@@ -55,8 +57,7 @@
 - clarify which comparison groups/intersections to use in viz -> intersect across replicates not treatments
 - compile `bedtools` and `samtools` from source -> nvm, will use tools in OSCAR
 - workflow illustration for README
-
-
+- convert to using python script to write Slurm batch script
 
 
 ## Use Instructions:
