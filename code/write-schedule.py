@@ -11,9 +11,9 @@ def main(treatments, reps):
     Returns: NA
 
     Side affects: 
-    Writes the all bash commands for analysis to batch-script.sh
+    Writes all bash commands for analysis to batch-script.sh
     """
-    controls = ('RNaseH', 'Input') # todo: unhardcode
+    controls = ('RNaseH', 'Input') #TODO: unhardcode
     with open('batch-script.sh', mode='wt') as script:
         script.write("#!/bin/bash\n")
 
