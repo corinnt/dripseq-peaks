@@ -21,9 +21,9 @@ function call_peaks {
   macs2 callpeak
   -t "intermed/${strand_direction}_${treatment}.bam" \
   -c "intermed/${strand_direction}_${control}.bam" \
-  -f BAMPE -bw 250                                        # format, bandwidth
+  -f BAMPE -bw 250                                     # format, bandwidth
   -g dm -n "${strand_direction}${control}_${rep_num}"  # genome size, name for files
-  –mfold 10 30 -q 0.01                                    # mfold range, qvalue/minimum FDR for peak detection
+  –mfold 10 30 -q 0.01                                 # mfold range, qvalue/minimum FDR for peak detection
   --outdir intermed/macs2
   2> intermed/macs2/peak-log.log \
   --broad \

@@ -10,6 +10,9 @@ set -o pipefail
 . peak-ops.sh # peak calling and intersection functions
 . visuals.sh # visualization functions
 
+# README
+# this file should be obsolete when using write-schedule to write the dependent batch script for Oscar
+
 TOOLS_PATH="~/desktop/spring_2023/drip-seq/tools" #to access JAR files
 REPS={1..3}
 TREATMENTS=('DRIP' 'RNaseH' 'Input')
