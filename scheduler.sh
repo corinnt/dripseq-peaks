@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Example !!! Will not be used anymore
 
 # how to choose how much time?
 #SBATCH --time=1:00:00
@@ -12,7 +13,7 @@
 #SBATCH -J  dripseq-peaks
 
 # need to fix this output path. want -e error file as well?
-#SBATCH -o dripseq-peaks.out # shouldn't be used bc everything is 
+#SBATCH -o dripseq-peaks.out 
 
 
 ./rloop-peaks.sh
