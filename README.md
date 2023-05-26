@@ -65,12 +65,11 @@ The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP'
 
 ### On Oscar, Brown's shared compute cluster:
 *These directions are still a work in progress.*
-1. Use `ssh` to connect to connect to Oscar:
+**1. Use `ssh` to connect to connect to Oscar:**
 <!--- Make code --->
     ssh <username>@ssh.ccv.brown.edu
 
-
-2. Copy over the `drip-seq` directory from your computer to Oscar in order to make the FASTQ files, script, and environment available:
+**2. Copy over the `drip-seq` directory from your computer to Oscar in order to make the FASTQ files, script, and environment available:**
 
 Method 1:
 
@@ -78,49 +77,39 @@ In Finder, `cmd-K` to open the **Connect to Server** window.
 
 Enter `smb://smb.ccv.brown.edu/home/<username>` and press **Connect**.
 
-
-
-
 Method 2:
 <!--- Make code --->
     scp -r /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the `-r` flag is for recursive, so it will copy over the subdirectories and files inside the folder.
+The `-r` flag is for recursive, so it will copy over the subdirectories and files inside the folder.
 
+**3. Load the `anaconda` module from Oscar:**
 
-3. Load the `anaconda` module from Oscar:
+If this is the first time you've loaded anaconda, first run:
+<!--- Make code --->
+    conda init bash
+
 <!--- This might be module load anaconda/3-5.2.0 if this (recommended) version doesn't work --->
     module load anaconda/2022.05 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If this is the first time you've loaded anaconda, first run:
 
-    conda init bash
-
-<!--- TODO --->
-
-4. Add the `/tools` directory to the environment variable:
+**5. Build and activate the conda environment:**
 <!--- Make code --->
-    export my_variable=my_value
-Or is this what's at the top of the file?
-[TODO: details under "Passing environment variables to a batch job"](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
+    conda env create -f rloops-oscar.yml # if this is the first time 
 
-5. Build and activate the conda environment:
-<!--- Make code --->
-    conda env create -f rloops-x64.yml
+    conda activate rloops-oscar
 
-    conda activate rloops-x64
-
-6. In terminal, run the batch script:
+**6. In terminal, run the batch script:**
 <!--- Make code --->
     sbatch scheduler.sh
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [How to adjust the batch script arguments](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *You can run the `myq` command to check the status (pending or running) of the job in the queue.* 
+*You can run the `myq` command to check the status (pending or running) of the job in the queue.* 
 
-7. Once the job is complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.
+**7. Once the job is complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.**
 
-8. You can also copy the files from OSCAR to your local computer with:
+**8. You can also copy the files from Oscar to your local computer with:**
 <!--- Make code --->
     scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file
 
@@ -132,7 +121,7 @@ Or is this what's at the top of the file?
 
 &nbsp;&nbsp;&nbsp;&nbsp;  Otherwise, run `conda activate rloops-x64` in terminal
 
-2. Input data should be placed in data/ directory with the following naming convention:
+2. Data should be placed in data/ directory with the following naming convention:
 
     forward_< treament >_< replicate number >
 
@@ -142,19 +131,19 @@ Or is this what's at the top of the file?
 
 If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
 
-3. Uncomment 3 line of `/code/rloop-peaks.sh` (adds /tools directory to system path variable - not needed for Oscar)
-
-`export PATH=$PATH:~/<path>/<path>/drip-seq/tools`
-
 3. Run from inside the `drip-seq` directory:
 
     `./rloop-peaks.sh` 
 
 ## Environment and Dependencies Info:
-The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
+
+The Conda environment `rloops-oscar` allows a user on Oscar to use the necessary packages. 
 Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
 
-The JAR files for Trimmomatic and samtools as well as the executables for bedtools and picard should be added to the `tools/` directory (not committed). 
+The packages `Trimmomatic`, `samtools`, and `bedtools` are already available on Oscar. 
+
+The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
+Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
 
 ## Workflow illustration (in progress)
 
