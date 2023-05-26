@@ -113,7 +113,7 @@ You can run the `myq` command to check the status (pending or running) of the jo
 <!--- Make code --->
     scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file
 
-### On Local Machine: (leaving directions for now, but computation too large for local machines)
+### On Local Machine: (leaving directions for now, but computation too large for local machine)
 
 **1. Activate the virtual environment `rloops-x64`**
 
