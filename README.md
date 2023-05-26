@@ -140,7 +140,7 @@ If different file names are preferred, this pattern can be changed in the `code/
 The Conda environment `rloops-oscar` allows a user on Oscar to use the necessary packages. 
 Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
 
-The packages `Trimmomatic`, `samtools`, and `bedtools` are already available on Oscar. 
+The packages `Trimmomatic`, `samtools`, `Picard`, and `bedtools` are already available on Oscar. 
 
 The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
 Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
