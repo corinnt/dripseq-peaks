@@ -64,7 +64,9 @@
 The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP' 'RNaseH' 'Input')`. 
 
 ### On Oscar, Brown's shared compute cluster:
+
 *These directions are still a work in progress.*
+
 **1. Use `ssh` to connect to connect to Oscar:**
 <!--- Make code --->
     ssh <username>@ssh.ccv.brown.edu
@@ -85,13 +87,11 @@ The `-r` flag is for recursive, so it will copy over the subdirectories and file
 
 **3. Load the `anaconda` module from Oscar:**
 
-If this is the first time you've loaded anaconda, first run:
-<!--- Make code --->
-    conda init bash
+If this is the first time you've loaded anaconda, first run, `conda init bash`, then `exit` in order to make the changes take effect. You will have to log in to Oscar again.
 
+In terminal:
 <!--- This might be module load anaconda/3-5.2.0 if this (recommended) version doesn't work --->
     module load anaconda/2022.05 
-
 
 **5. Build and activate the conda environment:**
 <!--- Make code --->
