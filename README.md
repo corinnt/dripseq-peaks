@@ -105,7 +105,7 @@ In terminal:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [How to adjust the batch script arguments](https://docs.ccv.brown.edu/oscar/submitting-jobs/batch)
 
-*You can run the `myq` command to check the status (pending or running) of the job in the queue.* 
+You can run the `myq` command to check the status (pending or running) of the job in the queue.
 
 **7. Once the job is complete, at a minimum, copy the output files from `~/scratch` to `~/data` so the output won't be deleted after 30 days.**
 
@@ -115,13 +115,13 @@ In terminal:
 
 ### On Local Machine: (leaving directions for now, but computation too large for local machines)
 
-1. Activate the virtual environment `rloops-x64`
+**1. Activate the virtual environment `rloops-x64`**
 
-&nbsp;&nbsp;&nbsp;&nbsp;  For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
+For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
 
-&nbsp;&nbsp;&nbsp;&nbsp;  Otherwise, run `conda activate rloops-x64` in terminal
+Otherwise, run `conda activate rloops-x64` in terminal
 
-2. Data should be placed in data/ directory with the following naming convention:
+**2. Data should be placed in data/ directory with the following naming convention:**
 
     forward_< treament >_< replicate number >
 
@@ -131,7 +131,7 @@ In terminal:
 
 If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
 
-3. Run from inside the `drip-seq` directory:
+**3. Run from inside the `drip-seq` directory:**
 
     `./rloop-peaks.sh` 
 
