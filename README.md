@@ -15,9 +15,6 @@
 ## To-Do:
 
 **Dependency Management and Oscar Compatibility**
-- check which tools OSCAR has with `module avail bed*` 
-- confirm Oscar will be able to use -x64 rosetta environment (or that all the tools are already on Oscar)
-- fix `TOOLS_PATH` variable in `rloop-peaks.sh`(or delete if Oscar has Trimmomatic on path)
 - add Slurm commands to batch script - go to COBRE hours if needed
 - finish Oscar README use instructions
 
@@ -58,6 +55,9 @@
 - compile `bedtools` and `samtools` from source -> nvm, will use tools in OSCAR
 - workflow illustration for README
 - convert to using python script to write Slurm batch script
+- check which tools OSCAR has with `module avail bed*` -> all but macs2
+- confirm Oscar will be able to use -x64 rosetta environment or that all the tools are already on Oscar  -> it won't, must make new w/ macs2
+- fix `TOOLS_PATH` variable in `rloop-peaks.sh`or delete if Oscar has Trimmomatic on path -> latter
 
 
 ## Use Instructions:
