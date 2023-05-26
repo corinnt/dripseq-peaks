@@ -31,7 +31,7 @@ function trim_adaptors {
   local reverse_pair_path="intermed/reverse_pair_${treatment}_${rep_num}.fq.gz"
 
   #to use trimmomatic
-  java -jar "${TOOLS_PATH}/Trimmomatic-0.39/trimmomatic-0.39.jar" PE -phred33 \
+  java -jar "Trimmomatic-0.39/trimmomatic-0.39.jar" PE -phred33 \
   "$in_forward_file" "$in_reverse_file" \
   "$out_forward_pair_path" "$out_forward_unpair_path" \
   "$out_reverse_pair_path" "$out_forward_unpair_path" \
