@@ -79,6 +79,8 @@ In Finder, `cmd-K` to open the **Connect to Server** window.
 
 Enter `smb://smb.ccv.brown.edu/home/<username>` and press **Connect**.
 
+You may need to [connect to the Brown VPN](https://docs.ccv.brown.edu/oscar/connecting-to-oscar/cifs) if you are off campus. 
+
 Method 2:
 <!--- Make code --->
     scp -r /path/to/source/file <username>@ssh.ccv.brown.edu:/path/to/destination/file
