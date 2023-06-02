@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DM6_PATH = "/gpfs/data/shared/databases/refchef_refs/drosophila-melanogaster-bdgp6rel9/bowtie2_index_2_3_0"
+
 #---------------- preprocessing functions to be performed on all files -----------------------#
 
 # 1. trim adaptors + remove low-quality reads w Trimmomatic 
@@ -60,7 +62,7 @@ function align_reads {
   touch "$output_sam_path"
   cd ../code
 
-  bowtie2 -x "BDGP6" \
+  bowtie2 -x $DM6_PATH \
   -1 "intermed/${forward_reads_file}" \
   -2 "intermed/${reverse_reads_file}" \
   -fr -no-mixed --no-unal \
