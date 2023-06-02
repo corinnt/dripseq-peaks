@@ -132,9 +132,6 @@ Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTo
 
 The packages `Trimmomatic`, `samtools`, `Picard`, and `bedtools` are already available on Oscar. 
 
-The Conda environment `rloops-x64` allows an M1 Mac to use the packages intended for an x86-64 architecture. 
-Once activated, it allows access to the packages `bowtie2`, `macs2`, and `deepTools`.
-
 ## Workflow illustration (in progress)
 
 ![alt text](workflow-illustration.png?raw=true)
