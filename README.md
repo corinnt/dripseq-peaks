@@ -67,11 +67,21 @@ The script assumes 3 replicates `REPS={1..3}` and treatments `TREATMENTS=('DRIP'
 
 *These directions are still a work in progress.*
 
-**1. Use `ssh` to connect to connect to Oscar:**
+**1. Data should be placed in the data/ directory with the following naming convention:**
+
+    forward_< treament >_< replicate number >
+
+    reverse_< treament >_< replicate number >
+
+&nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
+
+If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
+
+**2. Use `ssh` to connect to connect to Oscar:**
 <!--- Make code --->
     ssh <username>@ssh.ccv.brown.edu
 
-**2. Copy over the `drip-seq` directory from your computer to Oscar in order to make the FASTQ files, script, and environment available:**
+**3. Copy over the `drip-seq` directory from your computer to Oscar in order to make the FASTQ files, script, and environment available:**
 
 Method 1:
 
@@ -87,7 +97,7 @@ Method 2:
 
 The `-r` flag is for recursive, so it will copy over the subdirectories and files inside the folder.
 
-**3. Load the `anaconda` module from Oscar:**
+**4. Load the `anaconda` module from Oscar:**
 
 If this is the first time you've loaded anaconda, first run, `conda init bash`, then `exit` in order to make the changes take effect. You will have to log in to Oscar again.
 
@@ -114,28 +124,6 @@ You can run the `myq` command to check the status (pending or running) of the jo
 **8. You can also copy the files from Oscar to your local computer with:**
 <!--- Make code --->
     scp <username>@ssh.ccv.brown.edu:/path/to/source/file /path/to/destination/file
-
-### On Local Machine: (leaving directions for now, but computation too large for local machine)
-
-**1. Activate the virtual environment `rloops-x64`**
-
-For first time set-up, run `conda env create -f rloops-x64.yml` in terminal
-
-Otherwise, run `conda activate rloops-x64` in terminal
-
-**2. Data should be placed in data/ directory with the following naming convention:**
-
-    forward_< treament >_< replicate number >
-
-    reverse_< treament >_< replicate number >
-
-&nbsp;&nbsp;&nbsp;&nbsp; ex) forward_DRIP_1.fq.gz, reverse_DRIP_1.fq.gz
-
-If different file names are preferred, this pattern can be changed in the `code/preprocess.sh` file in the function `trim_adaptors_across_reps`. 
-
-**3. Run from inside the `drip-seq` directory:**
-
-    `./rloop-peaks.sh` 
 
 ## Environment and Dependencies Info:
 
